@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "700910712314",
+    "project_id": "rescuepaws-61f08",
+    "storage_bucket": "rescuepaws-61f08.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:700910712314:android:4f41f7f5eb0e34a31ca043",
+        "android_client_info": {
+          "package_name": "com.rescuepaws.rescuepaws"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "700910712314-po6j1safqoh3omqc8d6q45kea3h24ltr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEymKHOkReeaGUcTsfa4sDJljNI4o-pKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "700910712314-po6j1safqoh3omqc8d6q45kea3h24ltr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
