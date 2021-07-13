@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:rescuepaws/screens/choice.dart';
 import 'package:rescuepaws/services/auth.dart';
 
-class AndroidSignIn extends StatefulWidget {
-  const AndroidSignIn({Key? key}) : super (key: key);
+class SignIn extends StatefulWidget {
+  const SignIn({Key? key}) : super (key: key);
 
   @override
-  _AndroidSignInState createState() => _AndroidSignInState();
+  _SignInState createState() => _SignInState();
 }
 
 
-class _AndroidSignInState extends State<AndroidSignIn> {
+class _SignInState extends State<SignIn> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:rescuepaws/screens/android_signin.dart';
+import 'package:rescuepaws/screens/signin.dart';
 import 'package:rescuepaws/screens/temp_reg.dart';
 
 
-class AndroidWelcomePage extends StatelessWidget {
-  const AndroidWelcomePage({Key? key}) : super(key: key);
+class WelcomePage extends StatelessWidget {
+  const WelcomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class AndroidWelcomePage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AndroidSignIn()),
+                  MaterialPageRoute(builder: (context) => SignIn()),
                 );
               },
               style: ElevatedButton.styleFrom(

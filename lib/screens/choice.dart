@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:rescuepaws/screens/android_welcome.dart';
+import 'package:rescuepaws/screens/welcome.dart';
 import 'package:rescuepaws/services/auth.dart';
 
 class  ChoicePage extends StatelessWidget {
@@ -15,7 +15,7 @@ class  ChoicePage extends StatelessWidget {
             AuthService().signOut();
             Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => AndroidWelcomePage() ),
+                MaterialPageRoute(builder: (context) => WelcomePage() ),
                     (route) => false);
 
           },
