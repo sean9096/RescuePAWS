@@ -1,6 +1,8 @@
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:rescuepaws/screens/android_welcome.dart';
+import 'package:rescuepaws/auth_wrapper.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();  //needed before initialize firebase to initialize binding
@@ -13,10 +15,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
       return MaterialApp(
-        home: AndroidWelcomePage(),
+        home: AuthWrapper(),
       );
-    //else statement is needed just in case device is not android
-    //add else if statement for ios
   }
 }
 

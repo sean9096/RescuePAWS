@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:rescuepaws/screens/android_signin.dart';
+import 'package:rescuepaws/screens/temp_reg.dart';
+
 
 class AndroidWelcomePage extends StatelessWidget {
   const AndroidWelcomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Color(0xFF6DAEDB),
       body: Column(
@@ -48,7 +51,12 @@ class AndroidWelcomePage extends StatelessWidget {
           Center(
             heightFactor:  2.5,
             child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Register()),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   primary: Color(0xFF32936F),
                   shape: RoundedRectangleBorder(
