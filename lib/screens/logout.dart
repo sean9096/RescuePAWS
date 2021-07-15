@@ -1,21 +1,21 @@
-
 import 'package:flutter/material.dart';
-import 'package:rescuepaws/screens/reg_pets.dart';
+import 'package:rescuepaws/screens/welcome.dart';
 import 'package:rescuepaws/services/auth.dart';
 
-class  ChoicePage extends StatelessWidget {
+class  Logout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text("Choice Page"),
+        Text("Logout Page"),
         SizedBox(height: 30),
         ElevatedButton(
           onPressed: () {
             AuthService().signOut();
-            Navigator.push(
+            Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => RegisterPet() ));
+                MaterialPageRoute(builder: (context) => WelcomePage() ),
+                    (route) => false);
 
           },
           style: ElevatedButton.styleFrom(
@@ -28,7 +28,7 @@ class  ChoicePage extends StatelessWidget {
             minimumSize: Size(248.0, 0),
           ),
           child: Text(
-            'Register Pet',
+            'Log Out',
             style: TextStyle(
               fontSize: 45.0,
             ),
