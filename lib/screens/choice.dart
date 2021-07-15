@@ -12,7 +12,6 @@ class  ChoicePage extends StatelessWidget {
         SizedBox(height: 30),
         ElevatedButton(
           onPressed: () {
-            AuthService().signOut();
             Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => RegisterPet() ));
