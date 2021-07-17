@@ -1,6 +1,9 @@
-import 'dart:io';
 
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:rescuepaws/services/DatabaseService.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rescuepaws/screens/logout.dart';
@@ -16,18 +19,36 @@ class RegisterPet extends StatefulWidget {
 class _RegisterPetState extends State<RegisterPet> {
 
 
-  List<File> _paths = [];
+  List<File> _filePaths = [];
   List<String> _fileNames = [];
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  Storage _storage = Storage();
+
+  Future uploadImage() async {
+    final uid = _auth.currentUser!.uid;
+    FirestoreDatabase _firestore = FirestoreDatabase(uid: uid);
+
+    _filePaths.forEach((file) {
+      final UploadTask task = _storage.uploadFileToStorage(file);
+      task.snapshotEvents.listen((event) {
+        if(event.state == TaskState.success) {
+          event.ref.getDownloadURL().then((imageUrl) => _firestore.writeFileToFirestore(imageUrl));
+        }
+      });
+    });
+
+
+  }
 
   Future selectImage() async {
     try{
       FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true, type: FileType.image);
 
       if(result != null) {
-        _paths.clear();
+        _filePaths.clear();
         result.files.forEach((selectedFile) {
           File file = File(selectedFile.path!);
-          _paths.add(file);
+          _filePaths.add(file);
         });
 
         setState(() {
@@ -73,6 +94,13 @@ class _RegisterPetState extends State<RegisterPet> {
                   );
                 },
                 child: Text('Log out Page')
+            ),
+
+            ElevatedButton(
+              onPressed: () {
+                uploadImage();
+              },
+              child: Text('Upload Images'),
             ),
 
           ],
