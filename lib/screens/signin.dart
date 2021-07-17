@@ -31,46 +31,59 @@ class _SignInState extends State<SignIn> {
           color: Color(0xFF32936F),
           child: Column(
             children: [
-              Image.asset('assets/rescuepaws_title.png'),
+              Expanded(
+                child: ListView(
+                  children: [
+                    Image.asset('assets/rescuepaws_title.png'),
 
-              Text(
-                  'Sign In',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 50,
-                  ),
-                ),
-
-                SizedBox(height: 20),
-
-                Container(
-                  padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-
-                        _buildEmail(),    //builds email TextForm widget
-
-                        SizedBox(height: 40),
-
-                        _buildPassword(), //builds password TextForm widget
-                      ],
+                    Center(
+                      child: Text(
+                          'Sign In',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 50,
+                          ),
+                        ),
                     ),
+
+                      SizedBox(height: 20),
+
+                      Container(
+                        padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+
+                              _buildEmail(),    //builds email TextForm widget
+
+                              SizedBox(height: 40),
+
+                              _buildPassword(), //builds password TextForm widget
+
+                            ],
+                          ),
+                        ),
+                      ),
+
+                    ],
                   ),
-                ),
-
-              Expanded(child: SizedBox(height: 0)),
-
-              _buildSignInButton(),   //builds Sign In Button
-
-              SizedBox(height: 12),
-              Text(
-                error,
-                style: TextStyle(color: Colors.red, fontSize: 14.0),
               ),
-              ],
-            ),
+
+
+              Center(
+                child: Text(
+                  error,
+                  style: TextStyle(color: Colors.red, fontSize: 14.0),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                child: _buildSignInButton(),
+              ),
+
+            ],
+          ),
           ),
       ),
     );

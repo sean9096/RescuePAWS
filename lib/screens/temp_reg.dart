@@ -29,15 +29,17 @@ class _RegisterState extends State<Register> {
 
           padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
           color: Color(0xFF32936F),
-          child: Column(
+          child: ListView(
             children: [
               Image.asset('assets/rescuepaws_title.png'),
 
-              Text(
-                'Register',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 50,
+              Center(
+                child: Text(
+                  'Register',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 50,
+                  ),
                 ),
               ),
 
@@ -59,19 +61,21 @@ class _RegisterState extends State<Register> {
                       SizedBox(height: 20),
 
                       _buildPassword(),   //builds password TextFormField
+
+                      SizedBox(height: 20),
+
+                      Text(
+                        error,
+                        style: TextStyle(color: Colors.red, fontSize: 14.0),
+                      ),
+
+                      _buildRegisterButton(),
+
                     ],
                   ),
                 ),
               ),
-              SizedBox(height: 20,),
-              Text(
-                error,
-                style: TextStyle(color: Colors.red, fontSize: 14.0),
-              ),
 
-              Expanded(child: SizedBox(height: 0)),
-
-              _buildRegisterButton(),
 
             ],
           ),

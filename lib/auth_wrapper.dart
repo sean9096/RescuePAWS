@@ -4,7 +4,7 @@ import  'package:flutter/material.dart';
 import 'package:rescuepaws/screens/choice.dart';
 
 class  AuthWrapper extends StatelessWidget {
-  FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
