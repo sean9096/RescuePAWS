@@ -18,6 +18,12 @@ class _RegisterState extends State<Register> {
   String name = '';
   String error = '';
 
+  bool validatePassword(String value)  {
+    String pattern = r'^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$';
+    RegExp regExp = new RegExp(pattern);
+    return regExp.hasMatch(value);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -151,8 +157,9 @@ class _RegisterState extends State<Register> {
         cursorColor: Colors.black,
         obscureText: true,
         validator: (val) {
-          if(val!.length < 8) {
-            return 'Enter password that is at least 8 characters';
+
+          if(!validatePassword(val!)) {
+            return 'Enter password that has at least:\n 8 char, 1 upper, 1 lower, 1 number';
           }else
             return null;
         },
@@ -200,6 +207,7 @@ class _RegisterState extends State<Register> {
       ),
     );
   }
+
 
 
 }
