@@ -18,8 +18,15 @@ class FirestoreDatabase {
         .catchError((error) => print("Failed to add user: $error"));
   }
 
-  writeFileToFirestore(imageUrl) {
-    pets.doc().set({'owner': uid, 'images': imageUrl});
+  String createPet() {
+    DocumentReference docRef = pets.doc();
+    String petID = docRef.id;
+    docRef.set({'owner': uid, 'images': []});
+    return petID;
+  }
+
+  writeFileToFirestore(imageUrl, String petID) {
+    pets.doc(petID).update({'images': FieldValue.arrayUnion([imageUrl])});
   }
 
 }

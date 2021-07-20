@@ -27,12 +27,13 @@ class _RegisterPetState extends State<RegisterPet> {
   Future uploadImage() async {
     final uid = _auth.currentUser!.uid;
     FirestoreDatabase _firestore = FirestoreDatabase(uid: uid);
+    String petID = _firestore.createPet();
 
     _filePaths.forEach((file) {
       final UploadTask task = _storage.uploadFileToStorage(file);
       task.snapshotEvents.listen((event) {
         if(event.state == TaskState.success) {
-          event.ref.getDownloadURL().then((imageUrl) => _firestore.writeFileToFirestore(imageUrl));
+          event.ref.getDownloadURL().then((imageUrl) => _firestore.writeFileToFirestore(imageUrl, petID));
         }
       });
     });
