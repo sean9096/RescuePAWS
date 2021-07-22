@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:rescuepaws/models/pet.dart';
 
 class FirestoreDatabase {
   final String uid;
@@ -18,10 +19,21 @@ class FirestoreDatabase {
         .catchError((error) => print("Failed to add user: $error"));
   }
 
-  String createPet() {
+  String createPet(Pet pet) {
     DocumentReference docRef = pets.doc();
     String petID = docRef.id;
-    docRef.set({'owner': uid, 'images': []});
+    docRef.set({
+      'owner': uid,
+      'petName': pet.petName,
+      'animalType': pet.type,
+      'species': pet.species,
+      'gender': pet.gender,
+      'isNeutered': pet.isNeutered,
+      'contactName': pet.contactName,
+      'contactPhone': pet.contactPhone,
+      'contactOther': pet.contactOther,
+      'images': [],
+    });
     return petID;
   }
 

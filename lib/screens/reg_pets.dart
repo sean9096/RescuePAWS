@@ -1,13 +1,14 @@
 
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:rescuepaws/screens/choice.dart';
 import 'package:rescuepaws/services/DatabaseService.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rescuepaws/screens/logout.dart';
+import 'package:rescuepaws/models/pet.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 
 class RegisterPet extends StatefulWidget {
@@ -22,18 +23,14 @@ class RegisterPet extends StatefulWidget {
 class _RegisterPetState extends State<RegisterPet> {
 
   final _formkey = GlobalKey<FormState>();
+  final maskFormatter = new MaskTextInputFormatter(mask: '###-###-####', filter: { "#": RegExp(r'[0-9]') });
 
-  String petName = '';
-  String species = '';
-  int age = 0;
-  String gender = 'female';
-  bool isNeutered = false;
-  List<String> animalTypes = ['dog', 'cat', 'reptiles', 'other'];
-  String type = 'dog';
-  String contactName = '';
-  String contactPhone = '';
-  String contactEmail = '';
-  String contactOther = '';
+  Pet _pet = Pet();
+  List<String> animalTypes = ['dog', 'cat', 'reptile', 'other'];
+  int minUpload = 3;
+  String contactError = '';
+  String selectError = '';
+  String formError = '';
 
   List<File> _filePaths = [];
   List<String> _fileNames = [];
@@ -43,7 +40,7 @@ class _RegisterPetState extends State<RegisterPet> {
   Future uploadImage() async {
     final uid = _auth.currentUser!.uid;
     FirestoreDatabase _firestore = FirestoreDatabase(uid: uid);
-    String petID = _firestore.createPet();
+    String petID = _firestore.createPet(_pet);
 
     _filePaths.forEach((file) {
       final UploadTask task = _storage.uploadFileToStorage(file);
@@ -63,6 +60,7 @@ class _RegisterPetState extends State<RegisterPet> {
 
       if(result != null) {
         _filePaths.clear();
+        selectError = '';
         result.files.forEach((selectedFile) {
           File file = File(selectedFile.path!);
           _filePaths.add(file);
@@ -72,6 +70,9 @@ class _RegisterPetState extends State<RegisterPet> {
           _fileNames.clear();
           result.files.forEach((i) {
             _fileNames.add(i.name);
+            if(_filePaths.length < minUpload) {
+              selectError = 'please select at least $minUpload pictures.';
+            }
           });
         });
       }
@@ -103,7 +104,7 @@ class _RegisterPetState extends State<RegisterPet> {
 
                 Center(
                   child: Text(
-                    'Register',
+                    'Register Pet',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 50,
@@ -180,16 +181,47 @@ class _RegisterPetState extends State<RegisterPet> {
                       ),
 
                       Divider(thickness: 3.0, color: Colors.white,),
-
+                      SizedBox(height: 20),
                       _buildContactName(),
 
-                      SizedBox(height: 20),
+                      SizedBox(height: 30),
 
+                      Text(
+                        '$contactError',
+                        style: TextStyle(color: Colors.red),
+                      ),
                       _buildContactPhone(),
 
-                      SizedBox(height: 20),
+                      SizedBox(height: 50),
 
-                      _buildConthactOther(),
+                      _buildContactOther(),
+
+                      SizedBox(height: 30),
+
+                      Row(
+                        children: [
+                          Text(
+                            '$selectError',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ],
+                      ),
+
+                      _buildUploadButton(),
+
+                      Row(
+                        children: [
+                          Flexible(child: Text('$_fileNames')),
+                        ],
+                      ),
+
+                      SizedBox(height: 70),
+
+                      Text(
+                          '$formError',
+                          style: TextStyle(color: Colors.red),
+                      ),
+                      _buildRegisterButton(),
 
 
                     ],
@@ -206,11 +238,7 @@ class _RegisterPetState extends State<RegisterPet> {
   }
 
 
-  Future<void> setPetName(val) async {
-    setState(() {
-      petName = val;
-    });
-  }
+
 
   Widget _buildName() {
     return TextFormField(
@@ -232,7 +260,7 @@ class _RegisterPetState extends State<RegisterPet> {
             return null;
         },
         onChanged: (val) {
-          setState(() => petName = val);
+          setState(() => _pet.petName = val);
         }
     );
   }
@@ -251,7 +279,7 @@ class _RegisterPetState extends State<RegisterPet> {
 
       ),
 
-      value: type,
+      value: _pet.type,
       items: animalTypes.map((String val) {
         return DropdownMenuItem(
           value: val,
@@ -260,8 +288,8 @@ class _RegisterPetState extends State<RegisterPet> {
       }).toList(),
       onChanged: (val) {
         setState(() {
-         type = val as String;
-          print('Animal type = $type');
+         _pet.type = val as String;
+          print('Animal type = ${_pet.type}');
         });
       },
 
@@ -281,7 +309,6 @@ class _RegisterPetState extends State<RegisterPet> {
         ),
         keyboardType: TextInputType.emailAddress,
         cursorColor: Colors.black,
-        obscureText: true,
         validator: (val) {
 
           if(val!.isEmpty) {
@@ -290,7 +317,7 @@ class _RegisterPetState extends State<RegisterPet> {
             return null;
         },
         onChanged: (val) {
-          setState(() => species = val);
+          setState(() => _pet.species = val);
         }
 
     );
@@ -305,10 +332,10 @@ class _RegisterPetState extends State<RegisterPet> {
               activeColor: Colors.black,
               title: Text('Male'),
               value: 'male',
-              groupValue: gender,
+              groupValue: _pet.gender,
               onChanged: (val) {
-                gender = val as String;
-                print('Gender: $gender');
+                _pet.gender = val as String;
+                print('Gender: ${_pet.gender}');
                 setState(() {});
               }
 
@@ -321,10 +348,10 @@ class _RegisterPetState extends State<RegisterPet> {
               activeColor: Colors.black,
               title: Text('Female'),
               value: 'female',
-              groupValue: gender,
+              groupValue: _pet.gender,
               onChanged: (val) {
-                gender = val as String;
-                print('Gender: $gender');
+                _pet.gender = val as String;
+                print('Gender: ${_pet.gender}');
                 setState(() {});
               }
           ),
@@ -344,10 +371,10 @@ class _RegisterPetState extends State<RegisterPet> {
               activeColor: Colors.black,
               title: Text('Yes'),
               value: true,
-              groupValue: isNeutered,
+              groupValue: _pet.isNeutered,
               onChanged: (val) {
-                isNeutered = val as bool;
-                print('isNeutered: $isNeutered');
+                _pet.isNeutered = val as bool;
+                print('isNeutered: ${_pet.isNeutered}');
                 setState(() {});
               }
 
@@ -360,10 +387,10 @@ class _RegisterPetState extends State<RegisterPet> {
               activeColor: Colors.black,
               title: Text('No'),
               value: false,
-              groupValue: isNeutered,
+              groupValue: _pet.isNeutered,
               onChanged: (val) {
-                isNeutered = val as bool;
-                print('isNeutered: $isNeutered');
+                _pet.isNeutered = val as bool;
+                print('isNeutered: ${_pet.isNeutered}');
                 setState(() {});
               }
           ),
@@ -383,7 +410,7 @@ class _RegisterPetState extends State<RegisterPet> {
             fontSize: 20,
             color: Colors.white,
           ),
-          enabledBorder: UnderlineInputBorder(borderSide: BorderSide(width: 4.0),),
+          enabledBorder: UnderlineInputBorder(borderSide: BorderSide(width: 2.0),),
           focusedBorder: UnderlineInputBorder(borderSide: BorderSide(width: 3.0),),
         ),
         keyboardType: TextInputType.emailAddress,
@@ -395,7 +422,7 @@ class _RegisterPetState extends State<RegisterPet> {
             return null;
         },
         onChanged: (val) {
-          setState(() => contactName = val);
+          setState(() => _pet.contactName = val);
         }
     );
 
@@ -404,43 +431,126 @@ class _RegisterPetState extends State<RegisterPet> {
   Widget _buildContactPhone()
   {
     return TextFormField(
+        inputFormatters: [maskFormatter],
+        keyboardType: TextInputType.phone,
         decoration: InputDecoration(
           labelText: 'Phone Number(optional):',
           labelStyle: TextStyle(
             fontSize: 20,
             color: Colors.white,
           ),
-          enabledBorder: UnderlineInputBorder(borderSide: BorderSide(width: 4.0),),
+          enabledBorder: UnderlineInputBorder(borderSide: BorderSide(width: 2.0),),
           focusedBorder: UnderlineInputBorder(borderSide: BorderSide(width: 3.0),),
         ),
         cursorColor: Colors.black,
+        validator: (val) {
+          if(val!.length > 0 && val.length < 12) {
+            return 'invalid phone number';
+          }else{
+           return null;
+          }
+        },
         onChanged: (val) {
-          setState(() => contactPhone = val);
+          setState(() => _pet.contactPhone = val);
+          print("Phone Number = ${_pet.contactPhone}");
         }
     );
   }
 
-  Widget _buildConthactOther() {
+  Widget _buildContactOther() {
 
     return TextField(
       decoration: InputDecoration(
         labelText: 'Other Contact Info:',
-        border: OutlineInputBorder(),
+        labelStyle: TextStyle(color: Colors.white,),
+        enabledBorder: OutlineInputBorder(borderSide: BorderSide(width: 2.0)),
+        focusedBorder: OutlineInputBorder(borderSide: BorderSide(width: 3.0)),
       ),
+      cursorColor: Colors.black,
       maxLines: 10,
       onChanged: (val) {
         setState(() {
-          contactOther = val;
-          print(contactOther);
+          _pet.contactOther = val;
+          print(_pet.contactOther);
         });
       },
     );
 
   }
 
+  Widget _buildUploadButton() {
+
+    return Row(
+      children: [
+        ElevatedButton(
+          onPressed: () async {
+            selectImage();
+        },
+          child: Text(
+            'Upload Images',
+            style: TextStyle(fontSize: 17.0),
+          ),
+          style: ElevatedButton.styleFrom(
+            primary: Color(0xFF6DAEDB),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50.0),
+            ),
+            side: BorderSide(color: Colors.black, width: 2.0),
+          ),
+        ),
+      ],
+    );
+
+  }
+
+  Widget _buildRegisterButton() {
+    return ElevatedButton(
+
+      onPressed: () async {
+        if(_formkey.currentState!.validate() && (_pet.contactPhone.isNotEmpty || _pet.contactOther.isNotEmpty) && (_filePaths.length >= minUpload)) {
+          setState(() {
+            uploadImage();
+            Navigator.pop(
+              context,
+              MaterialPageRoute(builder: (context) => ChoicePage()),
+            );
+          });
+        }else {
+          setState(() {
+            if(_pet.contactPhone.isEmpty && _pet.contactOther.isEmpty) {
+              contactError = 'please provide a phone number or other form of contact';
+            }else {
+              contactError = '';
+            }
+
+            if(_filePaths.length < minUpload) {
+              selectError = 'please select at least $minUpload pictures';
+            }
+
+          });
+          formError = 'please fill required fields';
+         }
+        },
+      child: Text(
+        'Register',
+        style: TextStyle(fontSize: 45.0),
+      ),
+
+      style: ElevatedButton.styleFrom(
+        primary: Color(0xFF6DAEDB),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50.0),
+        ),
+        side: BorderSide(color: Colors.black, width: 2.0),
+        padding: EdgeInsets.fromLTRB(55, 5, 50, 5),
+        minimumSize: Size(248.0, 0),
+      ),
+    );
+  }
 
 
-  /*Widget _buildRegisterButton() {
+/*
+  Widget _buildRegisterButton() {
     return ElevatedButton(
       onPressed: () async {
         if(_formkey.currentState!.validate()){
@@ -477,7 +587,9 @@ class _RegisterPetState extends State<RegisterPet> {
       ),
     );
   }
+ */
 
-   */
+
+
 
 }
