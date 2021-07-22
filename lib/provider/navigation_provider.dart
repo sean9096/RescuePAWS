@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rescuepaws/model/navigation_item.dart';
+import 'package:rescuepaws/models/navigation_item.dart';
 
 class NavigationProvider extends ChangeNotifier {
   NavigationItem _navigationItem = NavigationItem.home;
