@@ -41,6 +41,7 @@ class _RegisterPetState extends State<RegisterPet> {
     final uid = _auth.currentUser!.uid;
     FirestoreDatabase _firestore = FirestoreDatabase(uid: uid);
     String petID = _firestore.createPet(_pet);
+    _firestore.savePet(petID);
 
     _filePaths.forEach((file) {
       final UploadTask task = _storage.uploadFileToStorage(file);
@@ -82,7 +83,6 @@ class _RegisterPetState extends State<RegisterPet> {
     }catch(error) {
       print("select image error");
     }
-
 
   }
 

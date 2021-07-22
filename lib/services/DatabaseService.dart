@@ -14,6 +14,8 @@ class FirestoreDatabase {
   Future<void> addUser(String name) {
     return users.doc(uid).set({
       'Name': name,
+      'pets': [],
+      'likedPets': [],
     })
        .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));
@@ -35,6 +37,10 @@ class FirestoreDatabase {
       'images': [],
     });
     return petID;
+  }
+
+  savePet(String petID) {
+    users.doc(uid).update({'pets': FieldValue.arrayUnion([petID])});
   }
 
   writeFileToFirestore(imageUrl, String petID) {
