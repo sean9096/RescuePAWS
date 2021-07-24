@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:rescuepaws/models/pet.dart';
+import 'package:rescuepaws/models/user.dart';
 
 class FirestoreDatabase {
   final String uid;
@@ -14,7 +15,7 @@ class FirestoreDatabase {
   Future<void> addUser(String name) {
     return users.doc(uid).set({
       'Name': name,
-      'pets': [],
+      'pet': '',
       'likedPets': [],
     })
        .then((value) => print("User Added"))
@@ -40,11 +41,22 @@ class FirestoreDatabase {
   }
 
   savePet(String petID) {
-    users.doc(uid).update({'pets': FieldValue.arrayUnion([petID])});
+    users.doc(uid).update({'pet': petID});
   }
 
   writeFileToFirestore(imageUrl, String petID) {
     pets.doc(petID).update({'images': FieldValue.arrayUnion([imageUrl])});
+  }
+
+  Future<SavedUser> getUser(String uid)  async {
+    SavedUser _user = SavedUser();
+
+    DocumentSnapshot snapshot = await users.doc(uid).get();
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+
+    _user.SetUser(data);
+
+    return _user;
   }
 
 }

@@ -150,7 +150,7 @@ class _SignInState extends State<SignIn> {
           dynamic result = await _auth.signIn(email, password);
           if(result == null) {
             setState(() {
-              error = 'Could Not Sign In';
+              error = 'Invalid Credentials';
             });
           } else {
             setState(() {
