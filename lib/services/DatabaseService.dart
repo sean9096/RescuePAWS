@@ -22,6 +22,8 @@ class FirestoreDatabase {
         .catchError((error) => print("Failed to add user: $error"));
   }
 
+
+
   String createPet(Pet pet) {
     DocumentReference docRef = pets.doc();
     String petID = docRef.id;

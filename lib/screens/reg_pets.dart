@@ -52,7 +52,6 @@ class _RegisterPetState extends State<RegisterPet> {
       });
     });
 
-
   }
 
   Future selectImage() async {

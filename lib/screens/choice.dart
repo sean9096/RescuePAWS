@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rescuepaws/models/user.dart';
 import 'package:rescuepaws/screens/reg_pets.dart';
+import 'package:rescuepaws/screens/setting.dart';
 import 'package:rescuepaws/screens/welcome.dart';
 import 'package:rescuepaws/services/DatabaseService.dart';
 import 'package:rescuepaws/services/auth.dart';
@@ -115,7 +116,11 @@ class _ChoicePageState extends State<ChoicePage> {
 
   Widget _buildLook() {
     return ElevatedButton(
-      onPressed: ()  {},
+      onPressed: ()  {
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SettingsPage() ));
+      },
       style: ElevatedButton.styleFrom(
         primary: Color(0xFF6DAEDB),
         shape: RoundedRectangleBorder(
