@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rescuepaws/screens/welcome.dart';
+import 'package:rescuepaws/services/auth.dart';
 
 class SettingsPage extends StatefulWidget {
   static final String path = "lib/src/pages/settings/settings1.dart";
@@ -170,8 +171,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => WelcomePage()));
+                  AuthService().signOut();
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => WelcomePage()),
+                      (route) => false);
                 },
               ),
             )

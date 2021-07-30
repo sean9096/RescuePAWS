@@ -2,9 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rescuepaws/models/user.dart';
 import 'package:rescuepaws/screens/reg_pets.dart';
-import 'package:rescuepaws/screens/welcome.dart';
 import 'package:rescuepaws/services/DatabaseService.dart';
-import 'package:rescuepaws/services/auth.dart';
 import 'package:rescuepaws/widget/sidebar_widget.dart';
 
 class ChoicePage extends StatefulWidget {
@@ -43,8 +41,14 @@ class _ChoicePageState extends State<ChoicePage> {
         //backgroundColor: Colors.tealAccent[700],
       ),
       body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width,
+        height: MediaQuery
+            .of(context)
+            .size
+            .height,
         padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
         color: Color(0xFF32936F),
         child: ListView(
@@ -67,7 +71,6 @@ class _ChoicePageState extends State<ChoicePage> {
               ),
             ),
             SizedBox(height: 30),
-            _buildLogOut(),
           ],
         ),
       ),
@@ -84,7 +87,7 @@ class _ChoicePageState extends State<ChoicePage> {
         } else {
           setState(() {
             regError =
-                'Only 1 pet per user can be registered. Delete current pet to register a new one';
+            'Only 1 pet per user can be registered. Delete current pet to register a new one';
           });
         }
       },
@@ -100,7 +103,7 @@ class _ChoicePageState extends State<ChoicePage> {
       child: Text(
         'Register a Pet',
         style: TextStyle(
-          fontSize: 45.0,
+          fontSize: 40.0,
         ),
       ),
     );
@@ -119,38 +122,13 @@ class _ChoicePageState extends State<ChoicePage> {
         //minimumSize: Size(248.0, 0),
       ),
       child: Text(
-        'Looking for a Pet',
+        'Look for a Pet',
         style: TextStyle(
-          fontSize: 45.0,
+          fontSize: 40.0,
         ),
       ),
     );
   }
 
-  Widget _buildLogOut() {
-    return ElevatedButton(
-      onPressed: () {
-        AuthService().signOut();
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => WelcomePage()),
-            (route) => false);
-      },
-      style: ElevatedButton.styleFrom(
-        primary: Color(0xFF6DAEDB),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0),
-        ),
-        side: BorderSide(color: Colors.black, width: 2.0),
-        padding: EdgeInsets.fromLTRB(55, 5, 50, 5),
-        minimumSize: Size(248.0, 0),
-      ),
-      child: Text(
-        'Log Out',
-        style: TextStyle(
-          fontSize: 45.0,
-        ),
-      ),
-    );
-  }
+
 }

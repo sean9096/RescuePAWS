@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:rescuepaws/provider/navigation_provider.dart';
-import 'package:rescuepaws/models/navigation_item.dart';
 import 'package:rescuepaws/screens/choice.dart';
 import 'package:rescuepaws/screens/setting.dart';
 
