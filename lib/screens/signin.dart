@@ -91,28 +91,34 @@ class _SignInState extends State<SignIn> {
 
 
   Widget _buildEmail() {
-    return TextFormField(
-        decoration: InputDecoration(
-          labelText: 'Email:',
-          labelStyle: TextStyle(
-            fontSize: 30,
-            color: Colors.white,
-          ),
-          enabledBorder: UnderlineInputBorder(borderSide: BorderSide(width: 2.0),),
-          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(width: 3.0),),
-        ),
-        keyboardType: TextInputType.emailAddress,
-        cursorColor: Colors.black,
-        validator: (val) {
-          if(val!.isEmpty) {
-            return 'Enter an email';
-          }else
-            return null;
-        },
+    return Column(
+      children: [
+        TextFormField(
+            decoration: InputDecoration(
+              labelText: 'Email:',
+              labelStyle: TextStyle(
+                fontSize: 30,
+                color: Colors.white,
+              ),
+              enabledBorder: UnderlineInputBorder(borderSide: BorderSide(width: 2.0),),
+              focusedBorder: UnderlineInputBorder(borderSide: BorderSide(width: 3.0),),
+            ),
+            keyboardType: TextInputType.emailAddress,
+            cursorColor: Colors.black,
+            validator: (val) {
+              if(val!.isEmpty) {
+                return 'Enter an email';
+              }else
+                return null;
+            },
 
-        onChanged: (val) {
-          setState(() => email = val);
-        }
+            onChanged: (val) {
+              setState(() => email = val);
+            }
+        ),
+
+
+      ],
     );
   }
 
@@ -150,7 +156,7 @@ class _SignInState extends State<SignIn> {
           dynamic result = await _auth.signIn(email, password);
           if(result == null) {
             setState(() {
-              error = 'Could Not Sign In';
+              error = 'Invalid Credentials';
             });
           } else {
             setState(() {
