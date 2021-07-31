@@ -48,4 +48,40 @@ class AuthService {
       return null;
     }
   }
+
+  //Change Password
+  Future changePassword(String password) async {
+      User? _user = _auth.currentUser;
+
+      _user!.updatePassword(password).then((_) {
+        print("Password Successfully changed!");
+      }).catchError((error){
+        print("Password Change Unsuccessful");
+      });
+  }
+
+
+  Future changeEmail(String email) async {
+      User? _user = _auth.currentUser;
+      bool invalid = true;
+
+      _user!.updateEmail(email).then((_) {
+        print("Email Successfully changed!");
+        invalid = false;
+      }).catchError((error) {
+        print("Email change Unsuccessful");
+        invalid = true;
+      });
+
+      if(invalid) {
+        print("INVALID");
+        return true;
+      }
+      else {
+        print("INVALID");
+        return false;
+      }
+
+  }
+
 }
