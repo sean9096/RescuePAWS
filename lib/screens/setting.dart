@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:rescuepaws/screens/editSetting.dart';
+import 'package:rescuepaws/screens/petEditSetting.dart';
 import 'package:rescuepaws/screens/welcome.dart';
 
 class SettingsPage extends StatefulWidget {
-  static final String path = "lib/src/pages/settings/settings1.dart";
+  static final String path = "lib/src/pages/settings/setting.dart";
 
   @override
   _SettingsPageState createState() => _SettingsPageState();
@@ -64,7 +66,10 @@ class _SettingsPageState extends State<SettingsPage> {
                     color: Colors.purple,
                     child: ListTile(
                       onTap: () {
-                        //open edit profile
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditSettingPage()));
                       },
                       title: Text(
                         "John Doe",
@@ -92,25 +97,17 @@ class _SettingsPageState extends State<SettingsPage> {
                       children: <Widget>[
                         ListTile(
                           leading: Icon(
-                            Icons.lock_outline,
-                            color: Colors.purple,
-                          ),
-                          title: Text("Change Password"),
-                          trailing: Icon(Icons.keyboard_arrow_right),
-                          onTap: () {
-                            //open change password
-                          },
-                        ),
-                        _buildDivider(),
-                        ListTile(
-                          leading: Icon(
                             Icons.edit,
                             color: Colors.purple,
                           ),
                           title: Text("Change Pet Information"),
                           trailing: Icon(Icons.keyboard_arrow_right),
                           onTap: () {
-                            //open change Pet Information
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        PetEditSettingPage()));
                           },
                         ),
                         _buildDivider(),
