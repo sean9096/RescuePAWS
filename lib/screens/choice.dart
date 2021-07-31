@@ -20,7 +20,7 @@ class _ChoicePageState extends State<ChoicePage> {
   Future<bool> petValid() async {
     final uid = _auth.currentUser!.uid;
     FirestoreDatabase _firestore = FirestoreDatabase(uid: uid);
-    _user = await _firestore.getUser(uid);
+    _user = await _firestore.getUserFromFirestore(uid);
 
     if (_user.pet.isEmpty) {
       return true;

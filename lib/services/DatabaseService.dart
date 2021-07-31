@@ -12,11 +12,16 @@ class FirestoreDatabase {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   CollectionReference pets = FirebaseFirestore.instance.collection('pets');
 
-  Future<void> addUser(String name) {
+  Future<void> addUser(String name) async {
+    Storage _storage = Storage();
+
+    String url = await _storage.getDefaultProfilePic();
+
     return users.doc(uid).set({
       'Name': name,
       'pet': '',
       'likedPets': [],
+      'profilePic': url,
     })
        .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));
@@ -50,7 +55,7 @@ class FirestoreDatabase {
     pets.doc(petID).update({'images': FieldValue.arrayUnion([imageUrl])});
   }
 
-  Future<SavedUser> getUser(String uid)  async {
+  Future<SavedUser> getUserFromFirestore(String uid)  async {
     SavedUser _user = SavedUser();
 
     DocumentSnapshot snapshot = await users.doc(uid).get();
@@ -70,6 +75,11 @@ class Storage {
   uploadFileToStorage(file) {
     UploadTask task = _storage.ref().child("images/${DateTime.now().toString()}").putFile(file);
     return task;
+  }
+
+  Future<String> getDefaultProfilePic() async {
+    String downloadUrl = await _storage.ref('default/dog-48490_1280.png').getDownloadURL();
+    return downloadUrl;
   }
 
 

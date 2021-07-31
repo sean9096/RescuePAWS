@@ -15,12 +15,13 @@ class _LogoutState extends State<Logout> {
   String password = '';
   String email = '';
   String emailError = '';
-
+  String random = 'hello';
   bool validatePassword(String value) {
     String pattern = r'^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$';
     RegExp regExp = new RegExp(pattern);
     return regExp.hasMatch(value);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +63,7 @@ class _LogoutState extends State<Logout> {
             Text('$emailError',
               style: TextStyle(color: Colors.red),
             ),
+            Text('$random'),
 
             SizedBox(height: 40),
             _buildSignInButton()
