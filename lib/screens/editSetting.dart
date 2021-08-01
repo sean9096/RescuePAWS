@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rescuepaws/screens/setting.dart';
+import 'package:rescuepaws/widget/sidebar_widget.dart';
+
 
 class EditSettingPage extends StatefulWidget {
   @override
@@ -19,9 +21,10 @@ class _EditSettingPageState extends State<EditSettingPage> {
             Icons.arrow_back,
             color: Colors.purple,
           ),
-          onPressed: () {},
+          onPressed: () {Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) => SettingsPage()));},
         ),
-        actions: [
+        /*actions: [
           IconButton(
             icon: Icon(
               Icons.settings,
@@ -32,8 +35,9 @@ class _EditSettingPageState extends State<EditSettingPage> {
                   builder: (BuildContext context) => SettingsPage()));
             },
           ),
-        ],
+        ],*/
       ),
+      endDrawer: SidebarWidget(),
       body: Container(
         padding: EdgeInsets.only(left: 16, top: 25, right: 16),
         child: GestureDetector(

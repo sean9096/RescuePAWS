@@ -12,18 +12,18 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer: SidebarWidget(),
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 1,
-        leading: IconButton(
+          leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
             color: Colors.purple,
           ),
-          onPressed: () {},
+          onPressed: () {Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) => SettingsPage()));},
         ),
-        actions: [
+        /*actions: [
           IconButton(
             icon: Icon(
               Icons.settings,
@@ -34,8 +34,9 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
                   builder: (BuildContext context) => SettingsPage()));
             },
           ),
-        ],
+        ],*/
       ),
+      endDrawer: SidebarWidget(),
       body: Container(
         padding: EdgeInsets.only(left: 16, top: 25, right: 16),
         child: GestureDetector(

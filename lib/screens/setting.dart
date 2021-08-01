@@ -48,7 +48,6 @@ class _SettingsPageState extends State<SettingsPage> {
         brightness: _getBrightness(),
       ),
       child: Scaffold(
-        endDrawer: SidebarWidget(),
         backgroundColor: _dark ? null : Colors.grey.shade200,
         appBar: AppBar(
           elevation: 0,
@@ -59,7 +58,7 @@ class _SettingsPageState extends State<SettingsPage> {
             'Settings',
             style: TextStyle(color: _dark ? Colors.white : Colors.black),
           ),
-          actions: <Widget>[
+          /*actions: <Widget>[
             IconButton(
               icon: Icon(Icons.brightness_2_rounded),
               onPressed: () {
@@ -68,8 +67,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 });
               },
             )
-          ],
+          ],*/
         ),
+        endDrawer: SidebarWidget(),
         body: Stack(
           fit: StackFit.expand,
           children: <Widget>[
