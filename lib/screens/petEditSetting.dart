@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rescuepaws/screens/setting.dart';
+import 'package:rescuepaws/widget/sidebar_widget.dart';
 
 class PetEditSettingPage extends StatefulWidget {
   @override
@@ -11,6 +12,7 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer: SidebarWidget(),
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 1,

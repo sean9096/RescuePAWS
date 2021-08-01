@@ -6,6 +6,7 @@ import 'package:rescuepaws/screens/petEditSetting.dart';
 import 'package:rescuepaws/screens/welcome.dart';
 import 'package:rescuepaws/services/DatabaseService.dart';
 import 'package:rescuepaws/services/auth.dart';
+import 'package:rescuepaws/widget/sidebar_widget.dart';
 
 class SettingsPage extends StatefulWidget {
   static final String path = "lib/src/pages/settings/setting.dart";
@@ -47,6 +48,7 @@ class _SettingsPageState extends State<SettingsPage> {
         brightness: _getBrightness(),
       ),
       child: Scaffold(
+        endDrawer: SidebarWidget(),
         backgroundColor: _dark ? null : Colors.grey.shade200,
         appBar: AppBar(
           elevation: 0,
