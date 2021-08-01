@@ -88,7 +88,6 @@ class FirestoreDatabase {
 
     DocumentSnapshot snapshot = await pets.doc(petID).get();
     Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-    print("$data");
     _pet.SetPet(data);
 
     return _pet;

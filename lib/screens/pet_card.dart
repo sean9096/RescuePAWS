@@ -25,15 +25,14 @@ class _PetCardState extends State<PetCard> {
   bool isFirst = true;
   bool isLiked = false;
   late String currentPet;
-
-  void initializeFirestore() {
-    _firestore = FirestoreDatabase(uid: _auth.getUID());
-    print("FireStore instance Initialized!");
-  }
+  late String currentUID;
 
   Future<void> loadData() async{
     _firestore = FirestoreDatabase(uid: _auth.getUID());
     print("FireStore instance Initialized!");
+
+    currentUID = _auth.getUID();
+
 
     docID = await _firestore.getPetCollection();
 
@@ -88,53 +87,7 @@ class _PetCardState extends State<PetCard> {
         }
       ) : _buildBody(),
 
-      bottomNavigationBar: BottomAppBar(
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            textDirection: TextDirection.rtl,
-            children: [
-              IconButton(
-                  onPressed: () async {
-                    await getNextPet();
-                    setState(() {
-                      isLiked = false;
-                    });
-                  },
-                  icon: Icon(
-                    Icons.arrow_forward_ios_outlined,
-                  ),
-                  iconSize: 40,
-              ),
-
-              IconButton(
-                  onPressed: () {
-                    setState(() {
-                      isLiked = false;
-                    });
-                  },
-                  icon: Icon(
-                    Icons.clear,
-                  ),
-                iconSize: 40,
-              ),
-
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    isLiked = true;
-                  });
-                },
-                icon: Icon(
-                  Icons.check,
-                ),
-                iconSize: 40,
-              )
-
-            ],
-          ),
-        color: Colors.green,
-      ),
+      bottomNavigationBar: _buildBottomBar(),
     );
   }
 
@@ -195,6 +148,56 @@ class _PetCardState extends State<PetCard> {
         fontSize: 20,
         fontWeight: FontWeight.w400,
       ),
+    );
+  }
+
+  Widget _buildBottomBar() {
+    return BottomAppBar(
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        textDirection: TextDirection.rtl,
+        children: [
+          IconButton(
+            onPressed: () async {
+              await getNextPet();
+              setState(() {
+                isLiked = false;
+              });
+            },
+            icon: Icon(
+              Icons.arrow_forward_ios_outlined,
+            ),
+            iconSize: 40,
+          ),
+
+          IconButton(
+            onPressed: () {
+              setState(() {
+                isLiked = false;
+              });
+            },
+            icon: Icon(
+              Icons.clear,
+            ),
+            iconSize: 40,
+          ),
+
+          IconButton(
+            onPressed: () {
+              setState(() {
+                isLiked = true;
+              });
+            },
+            icon: Icon(
+              Icons.check,
+            ),
+            iconSize: 40,
+          )
+
+        ],
+      ),
+      color: Colors.green,
     );
   }
 
