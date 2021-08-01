@@ -103,6 +103,25 @@ class FirestoreDatabase {
 
   }
 
+  Future updatePet(String petID, Pet _pet) async {
+
+    pets.doc(petID).update({
+        'petName': _pet.petName,
+        'age': _pet.age,
+        'species': _pet.species,
+        'gender': _pet.gender,
+        'isNeutered': _pet.isNeutered,
+        'contactName': _pet.contactName,
+        'contactPhone': _pet.contactPhone,
+        'contactOther': _pet.contactOther,
+        'images': [],
+        }
+      );
+
+
+  }
+
+
 }
 
 

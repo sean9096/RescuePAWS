@@ -187,6 +187,7 @@ class _PetCardState extends State<PetCard> {
             onPressed: () {
               setState(() {
                 isLiked = true;
+                _firestore.createMatch(currentUID, currentPet);
               });
             },
             icon: Icon(
