@@ -15,32 +15,60 @@ class PetCard extends StatefulWidget {
 }
 
 class _PetCardState extends State<PetCard> {
+  late Future myFuture;
 
   AuthService _auth = AuthService();
   late FirestoreDatabase _firestore;
   List<String> docID = [];
-  late String randomID;
+  late String randomPet;
   Pet _pet = Pet();
   bool isFirst = true;
+  bool isLiked = false;
+  late String currentPet;
 
   void initializeFirestore() {
     _firestore = FirestoreDatabase(uid: _auth.getUID());
     print("FireStore instance Initialized!");
   }
 
-  Future<void> getPet() async{
+  Future<void> loadData() async{
+    _firestore = FirestoreDatabase(uid: _auth.getUID());
+    print("FireStore instance Initialized!");
+
     docID = await _firestore.getPetCollection();
-    randomID = docID[Random().nextInt(docID.length)];
-    print("Random id: $randomID");
-    _pet = await _firestore.getPet(randomID);
+
+    randomPet = docID[Random().nextInt(docID.length)];
+    currentPet = randomPet;
+    print("Random Pet: $randomPet");
+    print("Current Pet: $currentPet");
+
+    _pet = await _firestore.getPet(currentPet);
+    print("PetName: ${_pet.petName}");
+    print("Pet Images: ${_pet.images}");
+    isFirst = false;
+  }
+
+  Future<void> getNextPet() async {
+    randomPet = docID[Random().nextInt(docID.length)];
+    while(randomPet == currentPet) {
+      randomPet = docID[Random().nextInt(docID.length)];
+    }
+
+    currentPet = randomPet;
+    _pet = await _firestore.getPet(currentPet);
     print("PetName: ${_pet.petName}");
     print("Pet Images: ${_pet.images}");
   }
 
+  @override
+  void initState() {
+    super.initState();
+    myFuture = loadData();
+  }
 
   @override
   Widget build(BuildContext context) {
-    initializeFirestore();
+   // initializeFirestore();
     return Scaffold(
       endDrawer: SidebarWidget(),
       appBar: AppBar(
@@ -50,15 +78,16 @@ class _PetCardState extends State<PetCard> {
         backgroundColor: Colors.green,
         //backgroundColor: Colors.tealAccent[700],
       ),
-      body: FutureBuilder(
-          future: getPet(),
+      body: isFirst ?  FutureBuilder(
+          future: myFuture,
           builder: (context, snapshot) {
           if(snapshot.connectionState == ConnectionState.waiting) {
-            return Container(child: CircularProgressIndicator());
+            return Center(child: Container(child: CircularProgressIndicator()));
           }
           return _buildBody();
         }
-      ),
+      ) : _buildBody(),
+
       bottomNavigationBar: BottomAppBar(
           child: Row(
             mainAxisSize: MainAxisSize.max,
@@ -66,8 +95,11 @@ class _PetCardState extends State<PetCard> {
             textDirection: TextDirection.rtl,
             children: [
               IconButton(
-                  onPressed: () {
-                    setState(() {});
+                  onPressed: () async {
+                    await getNextPet();
+                    setState(() {
+                      isLiked = false;
+                    });
                   },
                   icon: Icon(
                     Icons.arrow_forward_ios_outlined,
@@ -76,7 +108,11 @@ class _PetCardState extends State<PetCard> {
               ),
 
               IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      isLiked = false;
+                    });
+                  },
                   icon: Icon(
                     Icons.clear,
                   ),
@@ -84,7 +120,11 @@ class _PetCardState extends State<PetCard> {
               ),
 
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  setState(() {
+                    isLiked = true;
+                  });
+                },
                 icon: Icon(
                   Icons.check,
                 ),
@@ -114,14 +154,49 @@ class _PetCardState extends State<PetCard> {
           ),
 
           child: Stack(
-            alignment: Alignment.center,
-            children: [
+            //if like button is tapped then show Contact info card
+            //else display pictures
+            children: isLiked ? [
+            Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Contact Info:',
+                    style: TextStyle(
+                      fontSize: 45,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+
+                  _buildContactInfo("Owner/Business Name", _pet.contactName),
+                  SizedBox(height: 15),
+                  _buildContactInfo("Phone Number", _pet.contactPhone),
+                  SizedBox(height: 15),
+                  _buildContactInfo("Other Contact Info", _pet.contactOther),
+                  ],
+            ),
+
+            ] : [
               //displays single image from _pet.images array
               Ink.image(image: NetworkImage(_pet.images[0]), fit: BoxFit.fill),
             ],
+
           )
         ),
       ),
     );
   }
+
+  Widget _buildContactInfo(String label, String contactData) {
+    return Text(
+      '$label:\n $contactData',
+      style: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.w400,
+      ),
+    );
+  }
+
+
 }

@@ -37,6 +37,7 @@ class FirestoreDatabase {
     docRef.set({
       'owner': uid,
       'petName': pet.petName,
+      'age': pet.age,
       'animalType': pet.type,
       'species': pet.species,
       'gender': pet.gender,

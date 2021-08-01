@@ -11,6 +11,7 @@ class Pet {
   String contactOther = '';
   List<dynamic> images = [];
   String owner = '';
+  String age = '';
 
   SetPet(Map<String, dynamic> data) {
     petName = data['petName'];
@@ -23,6 +24,7 @@ class Pet {
     contactOther =data['contactOther'];
     images = data['images'];
     owner = data['owner'];
+    age = data['age'];
   }
 
 }

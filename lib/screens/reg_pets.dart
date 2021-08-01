@@ -120,11 +120,15 @@ class _RegisterPetState extends State<RegisterPet> {
                     children: [
                       _buildName(), //builds name TextFormField
 
+                      SizedBox(height: 20),
+
+                      _buildAge(),
+
                       SizedBox(height: 40),
 
                       _buildAnimalType(), //builds email TextFormField
 
-                      SizedBox(height: 20),
+                      SizedBox(height: 30),
 
                       _buildSpecies(), //builds password TextFormField
 
@@ -260,6 +264,34 @@ class _RegisterPetState extends State<RegisterPet> {
         },
         onChanged: (val) {
           setState(() => _pet.petName = val);
+        });
+  }
+
+  Widget _buildAge() {
+    return TextFormField(
+        decoration: InputDecoration(
+          labelText: 'Age:',
+          labelStyle: TextStyle(
+            fontSize: 20,
+            color: Colors.white,
+          ),
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(width: 2.0),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(width: 3.0),
+          ),
+        ),
+        keyboardType: TextInputType.emailAddress,
+        cursorColor: Colors.black,
+        validator: (val) {
+          if (val!.isEmpty) {
+            return 'Age required';
+          } else
+            return null;
+        },
+        onChanged: (val) {
+          setState(() => _pet.age = val);
         });
   }
 
