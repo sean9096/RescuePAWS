@@ -60,6 +60,16 @@ class AuthService {
       });
   }
 
+  String getUID()  {
+    return _auth.currentUser!.uid;
+  }
+
+  Future<String?> getEmail() async{
+    User? _user = _auth.currentUser;
+    String? email = _user!.email;
+    return email;
+  }
+
 
   Future changeEmail(String email) async {
       User? _user = _auth.currentUser;
@@ -78,7 +88,7 @@ class AuthService {
         return true;
       }
       else {
-        print("INVALID");
+        print("VALID Email");
         return false;
       }
 

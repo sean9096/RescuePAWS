@@ -71,6 +71,29 @@ class FirestoreDatabase {
     return _user;
   }
 
+  Future<List<String>> getPetCollection()  async {
+    List<String> documents = [];
+    QuerySnapshot snapshot = await pets.get();
+
+    for(int i = 0; i < snapshot.docs.length; i++) {
+      documents.add(snapshot.docs[i].id);
+    }
+
+    return documents;
+  }
+
+  Future<Pet> getPet(String petID) async {
+    Pet _pet = Pet();
+
+    DocumentSnapshot snapshot = await pets.doc(petID).get();
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+    print("$data");
+    _pet.SetPet(data);
+
+    return _pet;
+
+  }
+
 }
 
 

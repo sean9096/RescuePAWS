@@ -1,4 +1,10 @@
+import 'dart:math';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rescuepaws/models/pet.dart';
+import 'package:rescuepaws/services/DatabaseService.dart';
+import 'package:rescuepaws/services/auth.dart';
 import 'package:rescuepaws/widget/sidebar_widget.dart';
 
 class PetCard extends StatefulWidget {
@@ -9,9 +15,32 @@ class PetCard extends StatefulWidget {
 }
 
 class _PetCardState extends State<PetCard> {
+
+  AuthService _auth = AuthService();
+  late FirestoreDatabase _firestore;
+  List<String> docID = [];
+  late String randomID;
+  Pet _pet = Pet();
+  bool isFirst = true;
+
+  void initializeFirestore() {
+    _firestore = FirestoreDatabase(uid: _auth.getUID());
+    print("FireStore instance Initialized!");
+  }
+
+  Future<void> getPet() async{
+    docID = await _firestore.getPetCollection();
+    randomID = docID[Random().nextInt(docID.length)];
+    print("Random id: $randomID");
+    _pet = await _firestore.getPet(randomID);
+    print("PetName: ${_pet.petName}");
+    print("Pet Images: ${_pet.images}");
+  }
+
+
   @override
   Widget build(BuildContext context) {
-
+    initializeFirestore();
     return Scaffold(
       endDrawer: SidebarWidget(),
       appBar: AppBar(
@@ -21,7 +50,15 @@ class _PetCardState extends State<PetCard> {
         backgroundColor: Colors.green,
         //backgroundColor: Colors.tealAccent[700],
       ),
-      body: _buildBody(),
+      body: FutureBuilder(
+          future: getPet(),
+          builder: (context, snapshot) {
+          if(snapshot.connectionState == ConnectionState.waiting) {
+            return Container(child: CircularProgressIndicator());
+          }
+          return _buildBody();
+        }
+      ),
       bottomNavigationBar: BottomAppBar(
           child: Row(
             mainAxisSize: MainAxisSize.max,
@@ -29,7 +66,9 @@ class _PetCardState extends State<PetCard> {
             textDirection: TextDirection.rtl,
             children: [
               IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {});
+                  },
                   icon: Icon(
                     Icons.arrow_forward_ios_outlined,
                   ),
@@ -63,9 +102,10 @@ class _PetCardState extends State<PetCard> {
     final size = MediaQuery.of(context).size;
     return Center(
       child: Container(
-        //padding: EdgeInsets.only(bottom: 20),
         height: size.height * 0.75,
         width: size.width * 0.95,
+
+        //displays pet image
         child: Card(
           semanticContainer: true,
           clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -76,7 +116,8 @@ class _PetCardState extends State<PetCard> {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              Ink.image(image: AssetImage('assets/pet_lucas.jpg'), fit: BoxFit.fill),
+              //displays single image from _pet.images array
+              Ink.image(image: NetworkImage(_pet.images[0]), fit: BoxFit.fill),
             ],
           )
         ),
