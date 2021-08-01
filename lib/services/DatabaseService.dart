@@ -114,7 +114,7 @@ class FirestoreDatabase {
         'contactName': _pet.contactName,
         'contactPhone': _pet.contactPhone,
         'contactOther': _pet.contactOther,
-        'images': [],
+        'images': _pet.images,
         }
       );
 
