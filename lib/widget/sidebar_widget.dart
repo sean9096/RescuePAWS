@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rescuepaws/screens/choice.dart';
 import 'package:rescuepaws/screens/setting.dart';
+import 'package:rescuepaws/screens/Inquiries.dart';
 
 class SidebarWidget extends StatelessWidget {
   final padding = EdgeInsets.symmetric(horizontal: 20);
@@ -70,7 +71,7 @@ class SidebarWidget extends StatelessWidget {
 
       case 2:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => ChoicePage(),
+          builder: (context) => Inquiries(),
         ));
         break;
 

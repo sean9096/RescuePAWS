@@ -11,6 +11,15 @@ class FirestoreDatabase {
 
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   CollectionReference pets = FirebaseFirestore.instance.collection('pets');
+  CollectionReference inquiry = FirebaseFirestore.instance.collection('inquiries');
+
+  Future <void> createMatch(String userID, String petID) {
+
+    return inquiry.add({
+      'interestedUser': userID,
+      'petLiked': petID
+    });
+  }
 
   //creates user document
   Future<void> addUser(String name) async {
