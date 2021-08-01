@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rescuepaws/models/user.dart';
+import 'package:rescuepaws/screens/pet_card.dart';
 import 'package:rescuepaws/screens/reg_pets.dart';
 import 'package:rescuepaws/services/DatabaseService.dart';
 import 'package:rescuepaws/widget/sidebar_widget.dart';
@@ -19,7 +20,7 @@ class _ChoicePageState extends State<ChoicePage> {
   Future<bool> petValid() async {
     final uid = _auth.currentUser!.uid;
     FirestoreDatabase _firestore = FirestoreDatabase(uid: uid);
-    _user = await _firestore.getUser(uid);
+    _user = await _firestore.getUserFromFirestore(uid);
 
     if (_user.pet.isEmpty) {
       return true;
@@ -111,7 +112,10 @@ class _ChoicePageState extends State<ChoicePage> {
 
   Widget _buildLook() {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => PetCard()));
+      },
       style: ElevatedButton.styleFrom(
         primary: Color(0xFF6DAEDB),
         shape: RoundedRectangleBorder(

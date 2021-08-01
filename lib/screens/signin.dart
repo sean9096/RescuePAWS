@@ -19,6 +19,7 @@ class _SignInState extends State<SignIn> {
   String error = '';
 
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -137,10 +138,7 @@ class _SignInState extends State<SignIn> {
         cursorColor: Colors.black,
         obscureText: true,
         validator: (val) {
-          if(val!.length < 8) {
-            return 'Enter password that is at least 8 characters';
-          }else
-            return null;
+
         },
 
         onChanged: (val) {

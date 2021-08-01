@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:rescuepaws/models/user.dart';
 import 'package:rescuepaws/screens/editSetting.dart';
 import 'package:rescuepaws/screens/petEditSetting.dart';
 import 'package:rescuepaws/screens/welcome.dart';
+import 'package:rescuepaws/services/DatabaseService.dart';
 import 'package:rescuepaws/services/auth.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -13,6 +16,19 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   late bool _dark;
+  SavedUser _user = SavedUser();
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  late FirestoreDatabase _firestore;
+
+  void initializeFirestore() {
+    _firestore = FirestoreDatabase(uid: _auth.currentUser!.uid);
+    print("FireStore instance Initialized!");
+  }
+
+  Future<void> getUser() async {
+    _user = await _firestore.getUserFromFirestore(_auth.currentUser!.uid);
+    print("User: ${_user.Name}");
+  }
 
   @override
   void initState() {
