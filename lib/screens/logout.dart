@@ -1,142 +1,117 @@
 import 'package:flutter/material.dart';
-import 'package:rescuepaws/screens/welcome.dart';
-import 'package:rescuepaws/services/auth.dart';
+import 'package:rescuepaws/widget/sidebar_widget.dart';
 
-class  Logout extends StatefulWidget {
+
+class LogoutPage extends StatefulWidget {
+  const LogoutPage({Key? key}) : super(key: key);
 
   @override
-  _LogoutState createState() => _LogoutState();
+  _LogoutPageState createState() => _LogoutPageState();
 }
 
-class _LogoutState extends State<Logout> {
-  final _formKey = GlobalKey<FormState>();
-  final _auth = AuthService();
-
-  String password = '';
-  String email = '';
-  String emailError = '';
-  String random = 'hello';
-  bool validatePassword(String value) {
-    String pattern = r'^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$';
-    RegExp regExp = new RegExp(pattern);
-    return regExp.hasMatch(value);
-  }
-
-
+class _LogoutPageState extends State<LogoutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Form(
-          key: _formKey,
-          child: Column(
+        endDrawer: SidebarWidget(),
+        appBar: AppBar(
+        elevation: 0,
+        centerTitle: true,
+        title: Text('Home Page'),
+        backgroundColor: Colors.green,
+        ),
+      body: _buildBody(),
+
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          textDirection: TextDirection.rtl,
           children: [
-            Text("Logout Page"),
-            SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: () {
-                AuthService().signOut();
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => WelcomePage() ),
-                        (route) => false);
-
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Color(0xFF6DAEDB),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50.0),
-                ),
-                side: BorderSide(color: Colors.black, width: 2.0),
-                padding: EdgeInsets.fromLTRB(55, 5, 50, 5),
-                minimumSize: Size(248.0, 0),
+            IconButton(
+              onPressed: ()  {},
+              icon: Icon(
+                Icons.arrow_forward_ios_outlined,
               ),
-              child: Text(
-                'Log Out',
-                style: TextStyle(
-                  fontSize: 45.0,
-                ),
+              iconSize: 40,
+            ),
+
+            IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.clear,
               ),
+              iconSize: 40,
             ),
-            SizedBox(height: 30),
-            _buildEmail(),
 
-            Text('$emailError',
-              style: TextStyle(color: Colors.red),
-            ),
-            Text('$random'),
-
-            SizedBox(height: 40),
-            _buildSignInButton()
+            IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.check,
+              ),
+              iconSize: 40,
+            )
 
           ],
-      ),
         ),
-    );
-  }
-
-  Widget _buildEmail() {
-    return TextFormField(
-        decoration: InputDecoration(
-          labelText: 'Email:',
-          labelStyle: TextStyle(
-            fontSize: 30,
-            color: Colors.white,
-          ),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(width: 2.0),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(width: 3.0),
-          ),
-        ),
-        keyboardType: TextInputType.emailAddress,
-        cursorColor: Colors.black,
-        validator: (val) {
-          if (val!.isEmpty) {
-            return 'Enter an email';
-          } else
-            return null;
-        },
-        onChanged: (val) {
-          setState(() => email = val);
-        });
-  }
-
-
-  Widget _buildSignInButton() {
-    return ElevatedButton(
-      onPressed: () async {
-        dynamic invalidEmail;
-        if(_formKey.currentState!.validate()) {
-          print("Valid");
-          invalidEmail = await _auth.changeEmail(email) ;
-          if(invalidEmail) {
-            setState(() {
-              emailError = "invalid email";
-            });
-          }
-        }else {
-          print("NOT VALID");
-        }
-
-      },
-      style: ElevatedButton.styleFrom(
-        primary: Color(0xFF6DAEDB),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0),
-        ),
-        side: BorderSide(color: Colors.black, width: 2.0),
-        padding: EdgeInsets.fromLTRB(55, 5, 50, 5),
-        minimumSize: Size(248.0, 0),
-      ),
-      child: Text(
-        'Change Email',
-        style: TextStyle(
-          fontSize: 45.0,
-        ),
+        color: Colors.green,
       ),
     );
   }
 
+  Widget _buildBody() {
+    final size = MediaQuery.of(context).size;
+    return Center(
+        child: Container(
+          height: size.height * 0.75,
+          width: size.width * 0.95,
+
+          //displays pet image
+          child: Card(
+              semanticContainer: true,
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+
+              child: Stack(
+                //alignment: Alignment.center,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Contact Info:',
+                          style: TextStyle(
+                              fontSize: 45,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                              decoration: TextDecoration.underline,
+                          ),
+                        ),
+
+                        _buildContactInfo("Owner/Business Name"),
+                        SizedBox(height: 15),
+                        _buildContactInfo("contactPhone"),
+                        SizedBox(height: 15),
+                        _buildContactInfo("Other Contact Info"),
+
+                      ],
+                    ),
+                  ],
+        )
+    ),
+    ),
+    );
+  }
+
+  Widget _buildContactInfo(String label) {
+    return Text(
+      '$label: ',
+      style: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.w400,
+      ),
+    );
+  }
 
 }
