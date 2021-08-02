@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rescuepaws/services/DatabaseService.dart';
 import 'package:rescuepaws/widget/sidebar_widget.dart';
+import 'package:rescuepaws/services/auth.dart';
 
 
 class Inquiries extends StatefulWidget {
@@ -13,17 +14,20 @@ class Inquiries extends StatefulWidget {
 
 class _InquiriesState extends State<Inquiries> {
 
+  late Future myFuture;
+  AuthService _auth = AuthService();
+  late String id = _auth.getUID();
+  List<String> docID = [];
+  late FirestoreDatabase db = FirestoreDatabase(uid:'$id');
   List<Widget> list = [];
-  FirestoreDatabase db = FirestoreDatabase(uid: 'fm34f34');
+  //docID = await db.getPetCollection();
 
 
-  /*for(var i =0; i<4; i++)
-  {
-    list.add(InquiryButton());
-  }*/
 
   @override
   Widget build(BuildContext context) {
+    //db.getMatchCollection();
+    //print('');
     return Scaffold(
       appBar: AppBar(
         title: Text('Inquiries'),
@@ -31,35 +35,48 @@ class _InquiriesState extends State<Inquiries> {
         centerTitle: true,
       ),
       endDrawer: SidebarWidget(),
-      body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: list /*[
-          InquiryButton(),
-          InquiryButton()
-        ],*/
+      body: SingleChildScrollView(
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children:[
+              InquiryButton(),
+              InquiryButton(),
+              InquiryButton(),
+              InquiryButton(),
+              InquiryButton(),
+              InquiryButton(),
+              InquiryButton(),
+              InquiryButton(),
+          ],
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
+      /*floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
             list.insert(list.length,InquiryButton());
-            db.createMatch('mark','jade');
+            //getID();
           }
           );
         },
         child: Text('Click'),
-      ),
+      ),*/
     );
   }
 }
 
 class InquiryButton extends StatelessWidget {
-  const InquiryButton({
+  InquiryButton({
     Key? key,
   }) : super(key: key);
 
+  List<String> names = ["Jessica", "Benjamin", "Goofy", "Ronald" "Avery", "Sean", "Erik", "Hosea", 'Brianna', 'Alyissa', 'Jack', 'Steve','Linda'];
+  String name = "";
+
   @override
   Widget build(BuildContext context) {
+    names = names..shuffle();
+    name = names.first;
     return Container(
       height: 90.0,
       child: RaisedButton.icon(
@@ -68,7 +85,7 @@ class InquiryButton extends StatelessWidget {
           Icons.circle,
           color: Colors.blue,
         ),
-        label: Text('This Person Likes Your Pet'),
+        label: Text('$name Person Likes Your Pet'),
       ),
     );
   }
