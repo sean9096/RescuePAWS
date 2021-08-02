@@ -66,9 +66,6 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
     }
   }
 
-  /*Future<void> updatePet() async {
-    _firestore.updatePet(_user.pet, _pet);
-  }*/
 
   Future selectImage() async {
     try {

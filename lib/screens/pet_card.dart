@@ -28,6 +28,8 @@ class _PetCardState extends State<PetCard> {
   bool isLiked = false;
   late String currentPet;
   late String currentUID;
+  late int cardNum;
+  bool isNotEmpty = true;
 
   Future<void> loadData() async {
     _firestore = FirestoreDatabase(uid: _auth.getUID());
@@ -43,19 +45,32 @@ class _PetCardState extends State<PetCard> {
     print("Current Pet: $currentPet");
 
     _pet = await _firestore.getPet(currentPet);
+    docID.remove(currentPet);
     print("PetName: ${_pet.petName}");
     print("Pet Images: ${_pet.images}");
     isFirst = false;
   }
 
   Future<void> getNextPet() async {
-    randomPet = docID[Random().nextInt(docID.length)];
-    while (randomPet == currentPet) {
+
+    print("DOC LIST: $docID");
+    if(docID.isEmpty) {
+      isNotEmpty = false;
+    } else {
       randomPet = docID[Random().nextInt(docID.length)];
+      while (randomPet == currentPet) {
+        randomPet = docID[Random().nextInt(docID.length)];
+      }
+
+      currentPet = randomPet;
+      _pet = await _firestore.getPet(currentPet);
+      docID.remove(currentPet);
     }
 
-    currentPet = randomPet;
-    _pet = await _firestore.getPet(currentPet);
+
+
+
+
     print("PetName: ${_pet.petName}");
     print("Pet Images: ${_pet.images}");
   }
@@ -88,7 +103,9 @@ class _PetCardState extends State<PetCard> {
                 }
                 return _buildBody();
               })
-          : _buildBody(),
+          : isNotEmpty ? _buildBody() : Center(child: Container(child: Text("No More Matches"))),
+
+
       bottomNavigationBar: _buildBottomBar(),
     );
   }
@@ -119,11 +136,11 @@ class _PetCardState extends State<PetCard> {
                   Container(
                     width: size.width,
                     height: size.height,
-                    decoration: BoxDecoration(
+                    /*decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage(_pet.images[index]),
+                          image: NetworkImage(_pet.images[index]),
                           fit: BoxFit.cover),
-                    ),
+                    ),*/
                   ),
                   Container(
                     width: size.width,
