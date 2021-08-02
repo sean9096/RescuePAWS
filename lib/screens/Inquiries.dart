@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:rescuepaws/services/DatabaseService.dart';
 import 'package:rescuepaws/widget/sidebar_widget.dart';
 
-
 class Inquiries extends StatefulWidget {
   const Inquiries({Key? key}) : super(key: key); //Creating a stateful widget so
   // inquiries can update while page is loaded
@@ -13,10 +12,8 @@ class Inquiries extends StatefulWidget {
 }
 
 class _InquiriesState extends State<Inquiries> {
-
   List<Widget> list = [];
   FirestoreDatabase db = FirestoreDatabase(uid: 'fm34f34');
-
 
   /*for(var i =0; i<4; i++)
   {
@@ -67,7 +64,7 @@ class InquiryButton extends StatelessWidget {
         onPressed: (){},
         icon: Icon(
           Icons.circle,
-          color: Colors.blue,
+          color: Color(0xFF6DAEDB), //s.blue,
         ),
         label: Text('This Person Likes Your Pet'),
       ),
