@@ -140,6 +140,14 @@ class FirestoreDatabase {
     );
   }
 
+  Future updateUser(SavedUser _user) async {
+    users.doc(uid).update({
+      'Name': _user.Name,
+      'profilePic': _user.profilePic,
+    }
+    );
+  }
+
 }
 
 

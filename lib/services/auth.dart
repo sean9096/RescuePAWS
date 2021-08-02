@@ -75,23 +75,28 @@ class AuthService {
       User? _user = _auth.currentUser;
       bool invalid = true;
 
-      _user!.updateEmail(email).then((_) {
-        print("Email Successfully changed!");
-        invalid = false;
-      }).catchError((error) {
-        print("Email change Unsuccessful");
-        invalid = true;
-      });
-
-      if(invalid) {
-        print("INVALID");
-        return true;
-      }
-      else {
-        print("VALID Email");
-        return false;
+      try {
+        await _user!.updateEmail(email);
+        return "Successfuly changed email";
+      } catch (e) {
+        print(e.toString());
+        return null;
       }
 
   }
+
+
+  Future Reauthenticate(String email, String password) async {
+    AuthCredential credential = EmailAuthProvider.credential(
+        email: email, password: password);
+    try {
+      await _auth.currentUser!.reauthenticateWithCredential(credential);
+      return "Reauthenticated";
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
 
 }

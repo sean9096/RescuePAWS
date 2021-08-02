@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:rescuepaws/models/user.dart';
 import 'package:rescuepaws/screens/editSetting.dart';
 import 'package:rescuepaws/screens/petEditSetting.dart';
+import 'package:rescuepaws/screens/re_signin.dart';
 import 'package:rescuepaws/screens/welcome.dart';
 import 'package:rescuepaws/services/DatabaseService.dart';
 import 'package:rescuepaws/services/auth.dart';
@@ -97,7 +98,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => EditSettingPage()));
+                                    builder: (context) => ReSignIn()));
                           },
                           title: Text(
                             "${_user.Name}",
