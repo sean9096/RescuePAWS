@@ -1,4 +1,9 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rescuepaws/models/pet.dart';
 import 'package:rescuepaws/models/user.dart';
 import 'package:rescuepaws/screens/setting.dart';
@@ -23,10 +28,15 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
   AuthService _auth = AuthService();
   Pet _pet = Pet();
   SavedUser _user = SavedUser();
+  Storage _storage = Storage();
   
   bool showPassword = false;
-  String petName = "";
-  String age = "";
+  List<File> _filePaths = [];
+  List<String> _fileNames = [];
+  String selectError = '';
+  String contactError = '';
+  String formError = '';
+  int minUpload = 3;
   
   Future<void> loadData() async {
     _firestore = FirestoreDatabase(uid: _auth.getUID());
@@ -37,8 +47,57 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
     
   }
 
-  Future<void> updatePet() async {
+  Future uploadImage() async {
+
+    if(_filePaths.isEmpty) {
+      _firestore.updatePetNoPic(_user.pet, _pet);
+    } else {
+      _firestore.updatePetPic(_user.pet, _pet);
+      _filePaths.forEach((file) {
+        final UploadTask task = _storage.uploadFileToStorage(file);
+        task.snapshotEvents.listen((event) {
+          if (event.state == TaskState.success) {
+            event.ref.getDownloadURL().then(
+                    (imageUrl) =>
+                    _firestore.writeFileToFirestore(imageUrl, _user.pet));
+          }
+        });
+      });
+    }
+  }
+
+  /*Future<void> updatePet() async {
     _firestore.updatePet(_user.pet, _pet);
+  }*/
+
+  Future selectImage() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform
+          .pickFiles(allowMultiple: true, type: FileType.image);
+
+      if (result != null) {
+        _filePaths.clear();
+        selectError = '';
+        result.files.forEach((selectedFile) {
+          File file = File(selectedFile.path!);
+          _filePaths.add(file);
+        });
+
+        setState(() {
+          _fileNames.clear();
+          result.files.forEach((i) {
+            _fileNames.add(i.name);
+            if (_filePaths.length < minUpload) {
+              selectError = 'please select at least $minUpload pictures.';
+            }
+          });
+        });
+      }
+    } on PlatformException catch (e) {
+      print("Select Image Unsupported operation" + e.toString());
+    } catch (error) {
+      print("select image error");
+    }
   }
 
   @override
@@ -163,7 +222,37 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
                         buildIsNeutered(),
                         buildContactNameTextField('Owner/Business Name:', _pet.contactName, _pet.contactName),
                         buildPhoneTextField('Phone Number', _pet.contactPhone, _pet.contactPhone),
+
+                        Text(
+                          '$contactError',
+                          style: TextStyle(color: Colors.red),
+                        ),
                         buildContactOther(),
+
+                        Row(
+                          children: [
+                            Text(
+                              '$selectError',
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          ],
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.only(top: 30, right: 50),
+                          child: Row(
+                            children: [
+                              buildUploadButton(),
+                            ],
+                          ),
+                        ),
+
+                        Row(
+                          children: [
+                            Flexible(child: Text('$_fileNames')),
+                          ],
+                        ),
+
                         SizedBox(
                           height: 35,
                         ),
@@ -182,9 +271,36 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
                                       color: Colors.black)),
                             ),
                             RaisedButton(
-                              onPressed: () {
-                                //updatePet();
+                              onPressed: () async {
+                                if (_formkey.currentState!.validate() &&
+                                    (_pet.contactPhone.isNotEmpty || _pet.contactOther.isNotEmpty) &&
+                                    (_filePaths.length >= minUpload || _filePaths.isEmpty)) {
+                                  setState(() {
+                                      print("FORM SUCCESSFULL!!!");
+                                      uploadImage();
+                                      //updatePet();
+                                      Navigator.pop(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => SettingsPage()),
+                                      );
+                                  });
+                                } else {
+                                  setState(() {
+                                    if (_pet.contactPhone.isEmpty && _pet.contactOther.isEmpty) {
+                                      contactError =
+                                      'please provide a phone number or other form of contact';
+                                    } else {
+                                      contactError = '';
+                                    }
+
+                                    if (_filePaths.length < minUpload && _filePaths.isNotEmpty) {
+                                      selectError = 'please select at least $minUpload pictures';
+                                    }
+                                  });
+                                  formError = 'please fill required fields';
+                                }
                               },
+
                               color: Colors.purple,
                               padding: EdgeInsets.symmetric(horizontal: 50),
                               elevation: 2,
@@ -227,6 +343,13 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
               color: Colors.black,
             )),
 
+        validator: (val) {
+          if (val!.isEmpty) {
+            return 'Name required';
+          } else
+            return null;
+        },
+
         onChanged: (val) {
           setState(() {
             _pet.petName = val;
@@ -255,6 +378,13 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
               color: Colors.black,
             )),
 
+        validator: (val) {
+          if (val!.isEmpty) {
+            return 'Age required';
+          } else
+            return null;
+        },
+
         onChanged: (val) {
           setState(() {
             _pet.age = val;
@@ -281,9 +411,16 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
               color: Colors.black,
             )),
 
+        validator: (val) {
+          if (val!.isEmpty) {
+            return 'Species/Breed required';
+          } else
+            return null;
+        },
+
         onChanged: (val) {
           setState(() {
-            _pet.age = val;
+            _pet.species = val;
             print("Updated Data: ${_pet.species}");
           });
         },
@@ -342,6 +479,13 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
               color: Colors.black,
             )),
 
+        validator: (val) {
+          if (val!.isEmpty) {
+            return 'Owner/Business name required';
+          } else
+            return null;
+        },
+
         onChanged: (val) {
           setState(() {
             _pet.contactName = val;
@@ -369,6 +513,14 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
               fontWeight: FontWeight.bold,
               color: Colors.black,
             )),
+
+        validator: (val) {
+          if (val!.length > 0 && val.length < 12) {
+            return 'invalid phone number';
+          } else {
+            return null;
+          }
+        },
 
         onChanged: (val) {
           setState(() {
@@ -398,6 +550,27 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
           print(_pet.contactOther);
         });
       },
+    );
+  }
+
+  Widget buildUploadButton() {
+    return RaisedButton(
+      onPressed: () {
+        selectImage();
+      },
+
+      color: Colors.purple,
+      padding: EdgeInsets.symmetric(horizontal: 25),
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20)),
+      child: Text(
+        "Upload Images",
+        style: TextStyle(
+            fontSize: 14,
+            letterSpacing: 2.2,
+            color: Colors.white),
+      ),
     );
   }
 
