@@ -69,6 +69,10 @@ class FirestoreDatabase {
     pets.doc(petID).update({'images': FieldValue.arrayUnion([imageUrl])});
   }
 
+  updatePictures(imageUrl, String petID) {
+    pets.doc(petID).update({'images': FieldValue.arrayUnion([imageUrl])});
+  }
+
   //reads user from database, populates the user object, and returns user object
   Future<SavedUser> getUserFromFirestore(String uid)  async {
     SavedUser _user = SavedUser();
@@ -115,7 +119,7 @@ class FirestoreDatabase {
 
   }
 
-  Future updatePet(String petID, Pet _pet) async {
+  Future updatePetNoPic(String petID, Pet _pet) async {
 
     pets.doc(petID).update({
         'petName': _pet.petName,
@@ -126,13 +130,35 @@ class FirestoreDatabase {
         'contactName': _pet.contactName,
         'contactPhone': _pet.contactPhone,
         'contactOther': _pet.contactOther,
-        'images': [],
+        'images': _pet.images,
         }
       );
-
-
   }
 
+
+  Future updatePetPic(String petID, Pet _pet) async {
+
+    pets.doc(petID).update({
+      'petName': _pet.petName,
+      'age': _pet.age,
+      'species': _pet.species,
+      'gender': _pet.gender,
+      'isNeutered': _pet.isNeutered,
+      'contactName': _pet.contactName,
+      'contactPhone': _pet.contactPhone,
+      'contactOther': _pet.contactOther,
+      'images': [],
+    }
+    );
+  }
+
+  Future updateUser(SavedUser _user) async {
+    users.doc(uid).update({
+      'Name': _user.Name,
+      'profilePic': _user.profilePic,
+    }
+    );
+  }
 
 }
 
