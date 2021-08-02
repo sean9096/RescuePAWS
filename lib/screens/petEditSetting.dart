@@ -37,13 +37,20 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
   String contactError = '';
   String formError = '';
   int minUpload = 3;
-  
+  bool petEmpty = false;
+
   Future<void> loadData() async {
     _firestore = FirestoreDatabase(uid: _auth.getUID());
     print("FireStore instance Initialized!");
     
     _user = await _firestore.getUserFromFirestore(_auth.getUID());
-    _pet = await _firestore.getPet(_user.pet);
+
+    if(_user.pet.isEmpty) {
+      petEmpty = true;
+    }else {
+      _pet = await _firestore.getPet(_user.pet);
+    }
+
     
   }
 
@@ -110,6 +117,30 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
         builder: (context, snapshot) {
           if(snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: Container(child: CircularProgressIndicator()));
+          } else if(snapshot.connectionState == ConnectionState.done && petEmpty) {
+            return Scaffold(
+                appBar: AppBar(
+                  backgroundColor: Theme
+                      .of(context)
+                      .scaffoldBackgroundColor,
+                  elevation: 1,
+                  leading: IconButton(
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: Colors.purple,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) => SettingsPage()));
+                    },
+                  ),
+                ),
+
+              endDrawer: SidebarWidget(),
+
+              body: Center(child: Container(child: Text("Pet has not been registered"),),),
+
+            );
           }
           return Scaffold(
               appBar: AppBar(
