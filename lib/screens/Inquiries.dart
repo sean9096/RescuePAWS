@@ -1,3 +1,4 @@
+//inquiries option in settings side bar
 import 'package:flutter/material.dart';
 import 'package:rescuepaws/services/DatabaseService.dart';
 import 'package:rescuepaws/widget/sidebar_widget.dart';
@@ -27,7 +28,7 @@ class _InquiriesState extends State<Inquiries> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Inquiries'),
-        backgroundColor: Colors.green[900],
+        backgroundColor: Color(0xFF32936F), //s.green[900],
         centerTitle: true,
       ),
       endDrawer: SidebarWidget(),
