@@ -1,3 +1,4 @@
+//user registration
 import 'package:flutter/material.dart';
 import 'package:rescuepaws/screens/choice.dart';
 import 'package:rescuepaws/services/auth.dart';
