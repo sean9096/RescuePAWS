@@ -1,7 +1,7 @@
+//edit profile
 import 'package:flutter/material.dart';
 import 'package:rescuepaws/screens/setting.dart';
 import 'package:rescuepaws/widget/sidebar_widget.dart';
-
 
 class EditSettingPage extends StatefulWidget {
   @override
@@ -19,10 +19,12 @@ class _EditSettingPageState extends State<EditSettingPage> {
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
-            color: Colors.purple,
+            color: Color(0xFF6DAEDB), //s.purple,
           ),
-          onPressed: () {Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => SettingsPage()));},
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) => SettingsPage()));
+          },
         ),
         /*actions: [
           IconButton(
@@ -89,7 +91,7 @@ class _EditSettingPageState extends State<EditSettingPage> {
                               width: 4,
                               color: Theme.of(context).scaffoldBackgroundColor,
                             ),
-                            color: Colors.purple,
+                            color: Color(0xFF6DAEDB), //s.purple,
                           ),
                           child: Icon(
                             Icons.edit,
@@ -125,7 +127,7 @@ class _EditSettingPageState extends State<EditSettingPage> {
                   ),
                   RaisedButton(
                     onPressed: () {},
-                    color: Colors.purple,
+                    color: Color(0xFF6DAEDB), //s.purple,
                     padding: EdgeInsets.symmetric(horizontal: 50),
                     elevation: 2,
                     shape: RoundedRectangleBorder(
