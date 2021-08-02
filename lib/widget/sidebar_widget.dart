@@ -31,12 +31,6 @@ class SidebarWidget extends StatelessWidget {
                     text: 'Setting',
                     onClicked: () => selectedItem(context, 3),
                   ),
-                  const SizedBox(height: 24),
-                  buildMenuItem(
-                    context,
-                    text: 'Liked Pets',
-                    onClicked: () => selectedItem(context, 4),
-                  ),
                 ],
               ),
             ],
@@ -78,12 +72,6 @@ class SidebarWidget extends StatelessWidget {
       case 3:
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => SettingsPage(),
-        ));
-        break;
-
-      case 4:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => ChoicePage(),
         ));
         break;
     }
