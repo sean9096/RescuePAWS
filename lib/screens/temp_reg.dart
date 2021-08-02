@@ -1,6 +1,7 @@
 //user registration
 import 'package:flutter/material.dart';
 import 'package:rescuepaws/screens/choice.dart';
+import 'package:rescuepaws/screens/welcome.dart';
 import 'package:rescuepaws/services/auth.dart';
 
 class Register extends StatefulWidget {
@@ -27,59 +28,75 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
-          color: Color(0xFF32936F),
-          child: ListView(
-            children: [
-              Image.asset('assets/rescuepaws_title.png'),
-              Center(
-                child: Text(
-                  'Register',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 50,
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              Container(
-                padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
-                child: Form(
-                  key: _formkey,
-                  child: Column(
-                    children: [
-                      _buildName(), //builds name TextFormField
-
-                      SizedBox(height: 20),
-
-                      _buildEmail(), //builds email TextFormField
-
-                      SizedBox(height: 20),
-
-                      _buildPassword(), //builds password TextFormField
-
-                      SizedBox(height: 20),
-
-                      _buildConfirmPassword(), //builds confirm password TextFormField
-
-                      SizedBox(height: 20),
-
-                      Text(
-                        error,
-                        style: TextStyle(color: Colors.red, fontSize: 14.0),
-                      ),
-
-                      _buildRegisterButton(),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+      appBar: AppBar(
+        backgroundColor: Color(0xFF32936F),
+        elevation: 1,
+        centerTitle: true,
+        title: Text('Register'),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
           ),
+          onPressed: () {
+            Navigator.of(context).pop(MaterialPageRoute(
+                builder: (BuildContext context) => WelcomePage()));
+          },
+        ),
+      ),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
+        color: Color(0xFF32936F),
+        child: ListView(
+          children: [
+            Image.asset('assets/rescuepaws_title.png'),
+           /* Center(
+              child: Text(
+                'Register',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 50,
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+
+            */
+            Container(
+              padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
+              child: Form(
+                key: _formkey,
+                child: Column(
+                  children: [
+                    _buildName(), //builds name TextFormField
+
+                    SizedBox(height: 20),
+
+                    _buildEmail(), //builds email TextFormField
+
+                    SizedBox(height: 20),
+
+                    _buildPassword(), //builds password TextFormField
+
+                    SizedBox(height: 20),
+
+                    _buildConfirmPassword(), //builds confirm password TextFormField
+
+                    SizedBox(height: 20),
+
+                    Text(
+                      error,
+                      style: TextStyle(color: Colors.red, fontSize: 14.0),
+                    ),
+
+                    _buildRegisterButton(),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

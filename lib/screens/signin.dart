@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rescuepaws/screens/choice.dart';
+import 'package:rescuepaws/screens/welcome.dart';
 import 'package:rescuepaws/services/auth.dart';
 
 class SignIn extends StatefulWidget {
@@ -23,70 +24,76 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
-          color: Color(0xFF32936F),
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView(
-                  children: [
-                    Image.asset('assets/rescuepaws_title.png'),
+      appBar: AppBar(
+        backgroundColor: Color(0xFF32936F),
+        elevation: 1,
+        centerTitle: true,
+        title: Text('Sign In'),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Navigator.of(context).pop(MaterialPageRoute(
+                builder: (BuildContext context) => WelcomePage()));
+          },
+        ),
+      ),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
 
-                    Center(
-                      child: Text(
-                          'Sign In',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 50,
-                          ),
-                        ),
-                    ),
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
+        color: Color(0xFF32936F),
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView(
+                children: [
+                  Image.asset('assets/rescuepaws_title.png'),
 
-                      SizedBox(height: 20),
+                    SizedBox(height: 20),
 
-                      Container(
-                        padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
-                        child: Form(
-                          key: _formKey,
-                          child: Column(
-                            children: [
+                    Container(
+                      padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
 
-                              _buildEmail(),    //builds email TextForm widget
+                            _buildEmail(),    //builds email TextForm widget
 
-                              SizedBox(height: 40),
+                            SizedBox(height: 40),
 
-                              _buildPassword(), //builds password TextForm widget
+                            _buildPassword(), //builds password TextForm widget
 
-                            ],
-                          ),
+                            Center(
+                              child: Text(
+                                error,
+                                style: TextStyle(color: Colors.red, fontSize: 14.0),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.fromLTRB(40, 60, 40, 0),
+                              child: _buildSignInButton(),
+                            ),
+
+                          ],
                         ),
                       ),
+                    ),
 
-                    ],
-                  ),
-              ),
-
-
-              Center(
-                child: Text(
-                  error,
-                  style: TextStyle(color: Colors.red, fontSize: 14.0),
+                  ],
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
-                child: _buildSignInButton(),
-              ),
+            ),
 
-            ],
-          ),
-          ),
-      ),
+
+
+
+          ],
+        ),
+        ),
     );
   }
 
@@ -173,7 +180,7 @@ class _SignInState extends State<SignIn> {
           borderRadius: BorderRadius.circular(50.0),
         ),
         side: BorderSide(color: Colors.black, width: 2.0),
-        padding: EdgeInsets.fromLTRB(55, 5, 50, 5),
+        padding: EdgeInsets.fromLTRB(30, 0, 30, 5),
         minimumSize: Size(248.0, 0),
       ),
       child: Text(

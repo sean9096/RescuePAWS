@@ -196,19 +196,22 @@ class _PetCardState extends State<PetCard> {
                                       image: NetworkImage(_pet.images[index]),
                                       fit: BoxFit.fill),
 
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text("Name: ${_pet.petName} (${_pet.gender})", style: TextStyle(color: Colors.white),),
-                                      _buildPetInfo("Type of Animal", _pet.type),
-                                      _buildPetInfo("Age", _pet.age),
-                                      _buildPetInfo("Species/Breed", _pet.species),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 15.0, bottom: 15.0),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Name: ${_pet.petName} (${_pet.gender})", style: TextStyle(color: Colors.white),),
+                                        _buildPetInfo("Type of Animal", _pet.type),
+                                        _buildPetInfo("Age", _pet.age),
+                                        _buildPetInfo("Species/Breed", _pet.species),
 
-                                      _pet.isNeutered ? _buildPetInfo("IsNeutered/Spayed", "Yes")
-                                          : _buildPetInfo("IsNeutered/Spayed", "No"),
+                                        _pet.isNeutered ? _buildPetInfo("IsNeutered/Spayed", "Yes")
+                                            : _buildPetInfo("IsNeutered/Spayed", "No"),
 
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ],
                         )),
