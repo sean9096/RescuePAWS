@@ -1,3 +1,4 @@
+//swipping throguh pets
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
@@ -74,7 +75,7 @@ class _PetCardState extends State<PetCard> {
         elevation: 0,
         centerTitle: true,
         title: Text('Home Page'),
-        backgroundColor: Colors.green,
+        backgroundColor: Color(0xFF32936F), //s.green,
         //backgroundColor: Colors.tealAccent[700],
       ),
       body: isFirst
@@ -243,7 +244,7 @@ class _PetCardState extends State<PetCard> {
           )
         ],
       ),
-      color: Colors.green,
+      color: Color(0xFF32936F), //s.green,
     );
   }
 }
