@@ -52,7 +52,6 @@ class _PetCardState extends State<PetCard> {
   }
 
   Future<void> getNextPet() async {
-
     print("DOC LIST: $docID");
     if(docID.isEmpty) {
       isNotEmpty = false;
@@ -89,7 +88,7 @@ class _PetCardState extends State<PetCard> {
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
-        title: Text('Home Page'),
+        title: Text('Explore Page'),
         backgroundColor: Color(0xFF32936F), //s.green,
         //backgroundColor: Colors.tealAccent[700],
       ),
@@ -103,9 +102,9 @@ class _PetCardState extends State<PetCard> {
                 }
                 return _buildBody();
               })
-          : isNotEmpty ? _buildBody() : Center(child: Container(child: Text("No More Matches"))),
-
-
+          : isNotEmpty
+              ? _buildBody()
+              : Center(child: Container(child: Text("No More Matches"))),
       bottomNavigationBar: _buildBottomBar(),
     );
   }
@@ -198,7 +197,8 @@ class _PetCardState extends State<PetCard> {
 
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.end,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text("Name: ${_pet.petName} (${_pet.gender})", style: TextStyle(color: Colors.white),),
                                       _buildPetInfo("Type of Animal", _pet.type),
