@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rescuepaws/screens/choice.dart';
 import 'package:rescuepaws/screens/editSetting.dart';
+import 'package:rescuepaws/screens/setting.dart';
 import 'package:rescuepaws/services/auth.dart';
 
 class ReSignIn extends StatefulWidget {
@@ -24,6 +25,20 @@ class _ReSignInState extends State<ReSignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Color(0xFF32936F),
+          elevation: 1,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.of(context).pop(MaterialPageRoute(
+                  builder: (BuildContext context) => SettingsPage()));
+            },
+          ),
+      ),
       body: SingleChildScrollView(
         child: Container(
           width: MediaQuery.of(context).size.width,
@@ -67,22 +82,22 @@ class _ReSignInState extends State<ReSignIn> {
                         ),
                       ),
                     ),
-
+                    Center(
+                      child: Text(
+                        error,
+                        style: TextStyle(color: Colors.red, fontSize: 14.0),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(40, 50, 40, 0),
+                      child: _buildSignInButton(),
+                    ),
                   ],
                 ),
               ),
 
 
-              Center(
-                child: Text(
-                  error,
-                  style: TextStyle(color: Colors.red, fontSize: 14.0),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
-                child: _buildSignInButton(),
-              ),
+
 
             ],
           ),
