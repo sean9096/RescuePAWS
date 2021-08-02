@@ -31,12 +31,6 @@ class SidebarWidget extends StatelessWidget {
                     text: 'Setting',
                     onClicked: () => selectedItem(context, 3),
                   ),
-                  const SizedBox(height: 24),
-                  buildMenuItem(
-                    context,
-                    text: 'Liked Pets',
-                    onClicked: () => selectedItem(context, 4),
-                  ),
                 ],
               ),
             ],
