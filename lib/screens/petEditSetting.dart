@@ -1,3 +1,4 @@
+//edit pet profile screen
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -127,7 +128,7 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
                   leading: IconButton(
                     icon: Icon(
                       Icons.arrow_back,
-                      color: Colors.purple,
+                      color: Color(0xFF6DAEDB), //s.purple,
                     ),
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
@@ -151,7 +152,7 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
                 leading: IconButton(
                   icon: Icon(
                     Icons.arrow_back,
-                    color: Colors.purple,
+                    color: Color(0xFF6DAEDB), //s.purple,
                   ),
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
@@ -230,7 +231,7 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
                                             .of(context)
                                             .scaffoldBackgroundColor,
                                       ),
-                                      color: Colors.purple,
+                                      color: Color(0xFF6DAEDB), //s.purple,
                                     ),
                                     child: Icon(
                                       Icons.edit,
@@ -329,7 +330,7 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
                                 }
                               },
 
-                              color: Colors.purple,
+                              color: Color(0xFF6DAEDB), //s.purple,
                               padding: EdgeInsets.symmetric(horizontal: 50),
                               elevation: 2,
                               shape: RoundedRectangleBorder(
@@ -587,7 +588,7 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
         selectImage();
       },
 
-      color: Colors.purple,
+      color: Color(0xFF6DAEDB), //s.purple,
       padding: EdgeInsets.symmetric(horizontal: 25),
       elevation: 2,
       shape: RoundedRectangleBorder(

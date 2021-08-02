@@ -70,7 +70,7 @@ class InquiryButton extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  List<String> names = ["Jessica", "Benjamin", "Goofy", "Ronald" "Avery", "Sean", "Erik", "Hosea", 'Brianna', 'Alyissa', 'Jack', 'Steve','Linda'];
+  List<String> names = ["Jessica", "Benjamin", "Goofy", "Ronald", "Avery", "Sean", "Erik", "Hosea", 'Brianna', 'Alyissa', 'Jack', 'Steve','Linda'];
   String name = "";
 
   @override
@@ -80,7 +80,9 @@ class InquiryButton extends StatelessWidget {
     return Container(
       height: 90.0,
       child: RaisedButton.icon(
-        onPressed: (){},
+        onPressed: (){
+          //this.color = Colors.grey;
+        },
         icon: Icon(
           Icons.circle,
           color: Colors.blue,
