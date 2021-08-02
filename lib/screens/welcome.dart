@@ -15,9 +15,12 @@ class WelcomePage extends StatelessWidget {
          // Divider(
            // height: 80,
           //),
-          Image.asset(
-              'assets/rescuepaws_title.png',
-            ),
+          Container(
+            height: 550.0,
+            child: Image.asset(
+                'assets/rescuepaws_title.png',
+              ),
+          ),
           Expanded(child: SizedBox(height: 0)),
           Center(
             heightFactor:  1,
