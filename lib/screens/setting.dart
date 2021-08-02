@@ -1,3 +1,4 @@
+//settings screen
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rescuepaws/models/user.dart';
@@ -82,7 +83,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     elevation: 8.0,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)),
-                    color: Colors.purple,
+                    color: Color(0xFF32936F), //s.purple,
                     child: ListTile(
                       onTap: () {
                         Navigator.push(
@@ -117,7 +118,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         ListTile(
                           leading: Icon(
                             Icons.edit,
-                            color: Colors.purple,
+                            color: Color(0xFF6DAEDB), //s.purple,
                           ),
                           title: Text("Change Pet Information"),
                           trailing: Icon(Icons.keyboard_arrow_right),
@@ -133,7 +134,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         ListTile(
                           leading: Icon(
                             Icons.report_problem,
-                            color: Colors.purple,
+                            color: Color(0xFF6DAEDB), //s.purple,
                           ),
                           title: Text("Report Problem"),
                           trailing: Icon(Icons.keyboard_arrow_right),
@@ -150,11 +151,11 @@ class _SettingsPageState extends State<SettingsPage> {
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
-                      color: Colors.indigo,
+                      color: Color(0xFF32936F), //s.indigo,
                     ),
                   ),
                   SwitchListTile(
-                    activeColor: Colors.purple,
+                    activeColor: Color(0xFF6DAEDB), //s.purple,
                     contentPadding: const EdgeInsets.all(0),
                     value: true,
                     title: Text("Received notification"),
@@ -172,7 +173,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 height: 80,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: Colors.purple,
+                  color: Color(0xFF6DAEDB), //s.purple,
                   shape: BoxShape.circle,
                 ),
               ),
