@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:rescuepaws/screens/signin.dart';
 import 'package:rescuepaws/screens/temp_reg.dart';
 
-
 class WelcomePage extends StatelessWidget {
   const WelcomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      backgroundColor: Color(0xFF6DAEDB),
+      backgroundColor: Color(0xFF32936F), //(0xFF6DAEDB),
       body: Column(
        // mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -31,7 +29,7 @@ class WelcomePage extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                primary: Color(0xFF32936F),
+                primary: Color(0xFF6DAEDB), //(0xFF32936F),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50.0),
                 ),
@@ -58,7 +56,7 @@ class WelcomePage extends StatelessWidget {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Color(0xFF32936F),
+                  primary: Color(0xFF6DAEDB), //(0xFF32936F),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50.0),
                   ),

@@ -68,7 +68,7 @@ class _ChoicePageState extends State<ChoicePage> {
                   _buildRegisterPet(),
                   Text(
                     '$regError',
-                    style: TextStyle(color: Colors.red),
+                    style: TextStyle(color: Colors.black), //red),
                   ),
                 ],
               ),
@@ -90,7 +90,7 @@ class _ChoicePageState extends State<ChoicePage> {
         } else {
           setState(() {
             regError =
-            'Only 1 pet per user can be registered. Delete current pet to register a new one';
+            '\nOnly 1 pet per user can be registered. Delete current pet to register a new one.';
           });
         }
       },
