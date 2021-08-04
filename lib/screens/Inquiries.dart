@@ -85,7 +85,7 @@ class InquiryButton extends StatelessWidget {
         },
         icon: Icon(
           Icons.circle,
-          color: Colors.blue,
+          color: Color(0xFF6DAEDB), //s.blue,
         ),
         label: Text('$name Person Likes Your Pet'),
       ),
