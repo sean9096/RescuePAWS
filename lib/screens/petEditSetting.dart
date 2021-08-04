@@ -217,7 +217,8 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
                                           _pet.images[0],
                                         ))),
                               ),
-                              Positioned(
+                              //commented edit button out
+                              /*Positioned(
                                   bottom: 0,
                                   right: 0,
                                   child: Container(
@@ -238,6 +239,8 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
                                       color: Colors.white,
                                     ),
                                   )),
+
+                               */
                             ],
                           ),
                         ),
@@ -258,17 +261,20 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
                         ),
                         buildContactOther(),
 
-                        Row(
-                          children: [
-                            Text(
-                              '$selectError',
-                              style: TextStyle(color: Colors.red),
-                            ),
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.only(top: 30),
+                          child: Row(
+                            children: [
+                              Text(
+                                '$selectError',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ],
+                          ),
                         ),
 
                         Padding(
-                          padding: const EdgeInsets.only(top: 30, right: 50),
+                          padding: const EdgeInsets.only(right: 50),
                           child: Row(
                             children: [
                               buildUploadButton(),
@@ -292,7 +298,14 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
                               padding: EdgeInsets.symmetric(horizontal: 50),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20)),
-                              onPressed: () {},
+                              onPressed: () {
+                                setState(() {
+                                  Navigator.pop(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => SettingsPage()),
+                                  );
+                                });
+                              },
                               child: Text("CANCEL",
                                   style: TextStyle(
                                       fontSize: 14,
@@ -369,7 +382,7 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
             hintStyle: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: Colors.grey,
             )),
 
         validator: (val) {
@@ -404,7 +417,7 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
             hintStyle: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: Colors.grey,
             )),
 
         validator: (val) {
@@ -437,7 +450,7 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
             hintStyle: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: Colors.grey,
             )),
 
         validator: (val) {
@@ -505,7 +518,7 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
             hintStyle: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: Colors.grey,
             )),
 
         validator: (val) {
@@ -540,7 +553,7 @@ class _PetEditSettingPageState extends State<PetEditSettingPage> {
             hintStyle: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: Colors.grey,
             )),
 
         validator: (val) {

@@ -26,6 +26,8 @@ class _ReSignInState extends State<ReSignIn> {
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Color(0xFF32936F),
+          title: Text("Re-Authorize"),
+          centerTitle: true,
           elevation: 1,
           leading: IconButton(
             icon: Icon(
@@ -51,16 +53,6 @@ class _ReSignInState extends State<ReSignIn> {
                 child: ListView(
                   children: [
                     Image.asset('assets/rescuepaws_title.png'),
-
-                    Center(
-                      child: Text(
-                        'Re-Auth',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 50,
-                        ),
-                      ),
-                    ),
 
                     SizedBox(height: 20),
 
